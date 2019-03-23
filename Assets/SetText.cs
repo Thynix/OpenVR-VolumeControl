@@ -6,7 +6,7 @@ using Valve.VR.InteractionSystem;
 public class SetText : MonoBehaviour
 {
     private Text output;
-    public LinearMapping source;
+    public VolumeMapping source;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +19,6 @@ public class SetText : MonoBehaviour
     {
         // Values are from 0.0 to 1.0; this computation matches that of
         // HapticRack with 100 teeth.
-        output.text = $"{Mathf.RoundToInt(source.value * 100 - 0.5f):d}";
+        output.text = $"{Mathf.RoundToInt(source.Volume * 100 - 0.5f):d}";
     }
 }

@@ -15,7 +15,7 @@ namespace Valve.VR.InteractionSystem
     {
         public Transform startPosition;
         public Transform endPosition;
-        public LinearMapping linearMapping;
+        public VolumeMapping volumeMapping;
         public bool repositionGameObject = true;
         public bool maintainMomemntum = true;
         public float momemtumDampenRate = 5.0f;
@@ -40,25 +40,20 @@ namespace Valve.VR.InteractionSystem
 
         protected virtual void Start()
         {
-            if (linearMapping == null)
+            if (volumeMapping == null)
             {
-                linearMapping = GetComponent<LinearMapping>();
+                volumeMapping = GetComponent<VolumeMapping>();
             }
 
-            if (linearMapping == null)
+            if (volumeMapping == null)
             {
-                linearMapping = gameObject.AddComponent<LinearMapping>();
+                volumeMapping = gameObject.AddComponent<VolumeMapping>();
             }
 
-            initialMappingOffset = linearMapping.value;
+            initialMappingOffset = volumeMapping.Volume;
 
-            // Update mapping on startup to reflect initial object position.
-            // TODO: Any reason for this to be behind repositionGameObject? It
-            //       doesn't reposition it without it.
-            if (repositionGameObject)
-            {
-                UpdateLinearMapping(transform);
-            }
+            // Update drive on startup to reflect initial mapping value.
+            RepositionGameObject();
         }
 
         protected virtual void HandHoverUpdate(Hand hand)
@@ -67,7 +62,7 @@ namespace Valve.VR.InteractionSystem
 
             if (interactable.attachedToHand == null && startingGrabType != GrabTypes.None)
             {
-                initialMappingOffset = linearMapping.value - CalculateLinearMapping(hand.transform);
+                initialMappingOffset = volumeMapping.Volume - CalculateLinearMapping(hand.transform);
                 sampleCount = 0;
                 mappingChangeRate = 0.0f;
 
@@ -109,11 +104,11 @@ namespace Valve.VR.InteractionSystem
 
         protected void UpdateLinearMapping(Transform updateTransform)
         {
-            prevMapping = linearMapping.value;
-            linearMapping.value = Mathf.Clamp01(initialMappingOffset + CalculateLinearMapping(updateTransform));
+            prevMapping = volumeMapping.Volume;
+            volumeMapping.Volume = Mathf.Clamp01(initialMappingOffset + CalculateLinearMapping(updateTransform));
 
             mappingChangeSamples[sampleCount % mappingChangeSamples.Length] =
-                (1.0f / Time.deltaTime) * (linearMapping.value - prevMapping);
+                (1.0f / Time.deltaTime) * (volumeMapping.Volume - prevMapping);
             sampleCount++;
 
             RepositionGameObject();
@@ -137,7 +132,7 @@ namespace Valve.VR.InteractionSystem
             {
                 //Dampen the mapping change rate and apply it to the mapping
                 mappingChangeRate = Mathf.Lerp(mappingChangeRate, 0.0f, momemtumDampenRate * Time.deltaTime);
-                linearMapping.value = Mathf.Clamp01(linearMapping.value + (mappingChangeRate * Time.deltaTime));
+                volumeMapping.Volume = Mathf.Clamp01(volumeMapping.Volume + (mappingChangeRate * Time.deltaTime));
 
                 RepositionGameObject();
             }
@@ -147,7 +142,7 @@ namespace Valve.VR.InteractionSystem
         {
             if (repositionGameObject)
             {
-                transform.position = Vector3.Lerp(startPosition.position, endPosition.position, linearMapping.value);
+                transform.position = Vector3.Lerp(startPosition.position, endPosition.position, volumeMapping.Volume);
             }
         }
     }

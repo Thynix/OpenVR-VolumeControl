@@ -203,9 +203,9 @@
             <e p="SteamVR_TrackedCamera.cs" t="Include" />
             <e p="SteamVR_TrackedObject.cs" t="Include" />
             <e p="SteamVR_Utils.cs" t="Include" />
+            <e p="VolumeMapping.cs" t="Include" />
           </e>
           <e p="SteamVR.asmdef" t="Include" />
-          <e p="VolumeMapping.cs" t="Include" />
           <e p="WindowsHelper" t="Include">
             <e p="SteamVR_Windows_Editor_Helper.cs" t="Include" />
             <e p="SteamVR_Windows_EditorHelper.asmdef" t="Include" />
