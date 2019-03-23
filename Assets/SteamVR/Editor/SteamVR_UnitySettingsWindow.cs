@@ -13,7 +13,8 @@ namespace Valve.VR
     [InitializeOnLoad]
     public class SteamVR_UnitySettingsWindow : EditorWindow
     {
-        const bool forceShow = false; // Set to true to get the dialog to show back up in the case you clicked Ignore All.
+        const bool
+            forceShow = false; // Set to true to get the dialog to show back up in the case you clicked Ignore All.
 
         const string ignore = "ignore.";
         const string useRecommended = "Use recommended ({0})";
@@ -57,7 +58,7 @@ namespace Valve.VR
 #endif
 
 #if UNITY_2018_1_OR_NEWER
-    const FullScreenMode recommended_FullScreenMode = FullScreenMode.FullScreenWindow;
+        const FullScreenMode recommended_FullScreenMode = FullScreenMode.FullScreenWindow;
 #endif
         static SteamVR_UnitySettingsWindow window;
 
@@ -70,47 +71,46 @@ namespace Valve.VR
         {
             bool show =
                 (!EditorPrefs.HasKey(ignore + buildTarget) &&
-                    EditorUserBuildSettings.activeBuildTarget != recommended_BuildTarget) ||
+                 EditorUserBuildSettings.activeBuildTarget != recommended_BuildTarget) ||
                 (!EditorPrefs.HasKey(ignore + showUnitySplashScreen) &&
 #if (UNITY_5_4 || UNITY_5_3 || UNITY_5_2 || UNITY_5_1 || UNITY_5_0)
                 PlayerSettings.showUnitySplashScreen != recommended_ShowUnitySplashScreen) ||
 #else
-				PlayerSettings.SplashScreen.show != recommended_ShowUnitySplashScreen) ||
+                 PlayerSettings.SplashScreen.show != recommended_ShowUnitySplashScreen) ||
 #endif
-
 #if UNITY_2018_1_OR_NEWER
-            (!EditorPrefs.HasKey(ignore + defaultIsFullScreen) &&
-                PlayerSettings.fullScreenMode != recommended_FullScreenMode) ||
+                (!EditorPrefs.HasKey(ignore + defaultIsFullScreen) &&
+                 PlayerSettings.fullScreenMode != recommended_FullScreenMode) ||
 #else
             (!EditorPrefs.HasKey(ignore + defaultIsFullScreen) &&
                     PlayerSettings.defaultIsFullScreen != recommended_DefaultIsFullScreen) ||
                 (!EditorPrefs.HasKey(ignore + fullscreenMode) &&
                     PlayerSettings.d3d11FullscreenMode != recommended_FullscreenMode) ||
 #endif
-            (!EditorPrefs.HasKey(ignore + defaultScreenSize) &&
-                    (PlayerSettings.defaultScreenWidth != recommended_DefaultScreenWidth ||
-                    PlayerSettings.defaultScreenHeight != recommended_DefaultScreenHeight)) ||
+                (!EditorPrefs.HasKey(ignore + defaultScreenSize) &&
+                 (PlayerSettings.defaultScreenWidth != recommended_DefaultScreenWidth ||
+                  PlayerSettings.defaultScreenHeight != recommended_DefaultScreenHeight)) ||
                 (!EditorPrefs.HasKey(ignore + runInBackground) &&
-                    PlayerSettings.runInBackground != recommended_RunInBackground) ||
+                 PlayerSettings.runInBackground != recommended_RunInBackground) ||
                 (!EditorPrefs.HasKey(ignore + displayResolutionDialog) &&
-                    PlayerSettings.displayResolutionDialog != recommended_DisplayResolutionDialog) ||
+                 PlayerSettings.displayResolutionDialog != recommended_DisplayResolutionDialog) ||
                 (!EditorPrefs.HasKey(ignore + resizableWindow) &&
-                    PlayerSettings.resizableWindow != recommended_ResizableWindow) ||
+                 PlayerSettings.resizableWindow != recommended_ResizableWindow) ||
                 (!EditorPrefs.HasKey(ignore + visibleInBackground) &&
-                    PlayerSettings.visibleInBackground != recommended_VisibleInBackground) ||
+                 PlayerSettings.visibleInBackground != recommended_VisibleInBackground) ||
 #if (UNITY_5_4 || UNITY_5_3 || UNITY_5_2 || UNITY_5_1 || UNITY_5_0)
             (!EditorPrefs.HasKey(ignore + renderingPath) &&
                     PlayerSettings.renderingPath != recommended_RenderPath) ||
 #endif
-            (!EditorPrefs.HasKey(ignore + colorSpace) &&
-                    PlayerSettings.colorSpace != recommended_ColorSpace) ||
+                (!EditorPrefs.HasKey(ignore + colorSpace) &&
+                 PlayerSettings.colorSpace != recommended_ColorSpace) ||
                 (!EditorPrefs.HasKey(ignore + gpuSkinning) &&
-                    PlayerSettings.gpuSkinning != recommended_GpuSkinning) ||
+                 PlayerSettings.gpuSkinning != recommended_GpuSkinning) ||
 #if false
 			(!EditorPrefs.HasKey(ignore + singlePassStereoRendering) &&
 				PlayerSettings.singlePassStereoRendering != recommended_SinglePassStereoRendering) ||
 #endif
-            forceShow;
+                forceShow;
 
             if (show)
             {
@@ -121,8 +121,8 @@ namespace Valve.VR
 
             string[] dlls = new string[]
             {
-            "Plugins/x86/openvr_api.dll",
-            "Plugins/x86_64/openvr_api.dll"
+                "Plugins/x86/openvr_api.dll",
+                "Plugins/x86_64/openvr_api.dll"
             };
 
             foreach (string path in dlls)
@@ -134,7 +134,8 @@ namespace Valve.VR
                     Debug.Log("<b>[SteamVR Setup]</b> Deleting " + path);
                 else
                 {
-                    Debug.Log("<b>[SteamVR Setup]</b> " + path + " in use; cannot delete.  Please restart Unity to complete upgrade.");
+                    Debug.Log("<b>[SteamVR Setup]</b> " + path +
+                              " in use; cannot delete.  Please restart Unity to complete upgrade.");
                 }
             }
 
@@ -179,7 +180,8 @@ namespace Valve.VR
 #if (UNITY_5_5 || UNITY_5_4 || UNITY_5_3 || UNITY_5_2 || UNITY_5_1 || UNITY_5_0)
                     EditorUserBuildSettings.SwitchActiveBuildTarget(recommended_BuildTarget);
 #else
-				EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, recommended_BuildTarget);
+                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone,
+                        recommended_BuildTarget);
 #endif
                 }
 
@@ -218,29 +220,29 @@ namespace Valve.VR
                 GUILayout.EndHorizontal();
             }
 #else
-		if (!EditorPrefs.HasKey(ignore + showUnitySplashScreen) &&
-			PlayerSettings.SplashScreen.show != recommended_ShowUnitySplashScreen)
-		{
-			++numItems;
+            if (!EditorPrefs.HasKey(ignore + showUnitySplashScreen) &&
+                PlayerSettings.SplashScreen.show != recommended_ShowUnitySplashScreen)
+            {
+                ++numItems;
 
-			GUILayout.Label(showUnitySplashScreen + string.Format(currentValue, PlayerSettings.SplashScreen.show));
+                GUILayout.Label(showUnitySplashScreen + string.Format(currentValue, PlayerSettings.SplashScreen.show));
 
-			GUILayout.BeginHorizontal();
+                GUILayout.BeginHorizontal();
 
-			if (GUILayout.Button(string.Format(useRecommended, recommended_ShowUnitySplashScreen)))
-			{
-				PlayerSettings.SplashScreen.show = recommended_ShowUnitySplashScreen;
-			}
+                if (GUILayout.Button(string.Format(useRecommended, recommended_ShowUnitySplashScreen)))
+                {
+                    PlayerSettings.SplashScreen.show = recommended_ShowUnitySplashScreen;
+                }
 
-			GUILayout.FlexibleSpace();
+                GUILayout.FlexibleSpace();
 
-			if (GUILayout.Button("Ignore"))
-			{
-				EditorPrefs.SetBool(ignore + showUnitySplashScreen, true);
-			}
+                if (GUILayout.Button("Ignore"))
+                {
+                    EditorPrefs.SetBool(ignore + showUnitySplashScreen, true);
+                }
 
-			GUILayout.EndHorizontal();
-		}
+                GUILayout.EndHorizontal();
+            }
 #endif
 
 #if UNITY_2018_1_OR_NEWER
@@ -272,15 +274,17 @@ namespace Valve.VR
 
             if (!EditorPrefs.HasKey(ignore + defaultScreenSize) &&
                 (PlayerSettings.defaultScreenWidth != recommended_DefaultScreenWidth ||
-                PlayerSettings.defaultScreenHeight != recommended_DefaultScreenHeight))
+                 PlayerSettings.defaultScreenHeight != recommended_DefaultScreenHeight))
             {
                 ++numItems;
 
-                GUILayout.Label(defaultScreenSize + string.Format(" ({0}x{1})", PlayerSettings.defaultScreenWidth, PlayerSettings.defaultScreenHeight));
+                GUILayout.Label(defaultScreenSize + string.Format(" ({0}x{1})", PlayerSettings.defaultScreenWidth,
+                                    PlayerSettings.defaultScreenHeight));
 
                 GUILayout.BeginHorizontal();
 
-                if (GUILayout.Button(string.Format("Use recommended ({0}x{1})", recommended_DefaultScreenWidth, recommended_DefaultScreenHeight)))
+                if (GUILayout.Button(string.Format("Use recommended ({0}x{1})", recommended_DefaultScreenWidth,
+                    recommended_DefaultScreenHeight)))
                 {
                     PlayerSettings.defaultScreenWidth = recommended_DefaultScreenWidth;
                     PlayerSettings.defaultScreenHeight = recommended_DefaultScreenHeight;
@@ -325,7 +329,8 @@ namespace Valve.VR
             {
                 ++numItems;
 
-                GUILayout.Label(displayResolutionDialog + string.Format(currentValue, PlayerSettings.displayResolutionDialog));
+                GUILayout.Label(displayResolutionDialog +
+                                string.Format(currentValue, PlayerSettings.displayResolutionDialog));
 
                 GUILayout.BeginHorizontal();
 
@@ -368,8 +373,8 @@ namespace Valve.VR
                 GUILayout.EndHorizontal();
             }
 #if UNITY_2018_1_OR_NEWER
-        if (!EditorPrefs.HasKey(ignore + defaultIsFullScreen) &&
-			PlayerSettings.fullScreenMode != recommended_FullScreenMode)
+            if (!EditorPrefs.HasKey(ignore + defaultIsFullScreen) &&
+                PlayerSettings.fullScreenMode != recommended_FullScreenMode)
 #else
             if (!EditorPrefs.HasKey(ignore + fullscreenMode) &&
                 PlayerSettings.d3d11FullscreenMode != recommended_FullscreenMode)
@@ -378,7 +383,7 @@ namespace Valve.VR
                 ++numItems;
 
 #if UNITY_2018_1_OR_NEWER
-            GUILayout.Label(fullscreenMode + string.Format(currentValue, PlayerSettings.fullScreenMode));
+                GUILayout.Label(fullscreenMode + string.Format(currentValue, PlayerSettings.fullScreenMode));
 #else
                 GUILayout.Label(fullscreenMode + string.Format(currentValue, PlayerSettings.d3d11FullscreenMode));
 #endif
@@ -388,7 +393,7 @@ namespace Valve.VR
                 if (GUILayout.Button(string.Format(useRecommended, recommended_FullscreenMode)))
                 {
 #if UNITY_2018_1_OR_NEWER
-                PlayerSettings.fullScreenMode = recommended_FullScreenMode;
+                    PlayerSettings.fullScreenMode = recommended_FullScreenMode;
 #else
                     PlayerSettings.d3d11FullscreenMode = recommended_FullscreenMode;
 #endif
@@ -461,7 +466,8 @@ namespace Valve.VR
 
                 GUILayout.BeginHorizontal();
 
-                if (GUILayout.Button(string.Format(useRecommended, recommended_ColorSpace) + " - requires reloading scene"))
+                if (GUILayout.Button(string.Format(useRecommended, recommended_ColorSpace) +
+                                     " - requires reloading scene"))
                 {
                     PlayerSettings.colorSpace = recommended_ColorSpace;
                 }
@@ -568,18 +574,19 @@ namespace Valve.VR
 #if (UNITY_5_5 || UNITY_5_4 || UNITY_5_3 || UNITY_5_2 || UNITY_5_1 || UNITY_5_0)
                         EditorUserBuildSettings.SwitchActiveBuildTarget(recommended_BuildTarget);
 #else
-					EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, recommended_BuildTarget);
+                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone,
+                            recommended_BuildTarget);
 #endif
                     if (!EditorPrefs.HasKey(ignore + showUnitySplashScreen))
 #if (UNITY_5_4 || UNITY_5_3 || UNITY_5_2 || UNITY_5_1 || UNITY_5_0)
                         PlayerSettings.showUnitySplashScreen = recommended_ShowUnitySplashScreen;
 #else
-					PlayerSettings.SplashScreen.show = recommended_ShowUnitySplashScreen;
+                        PlayerSettings.SplashScreen.show = recommended_ShowUnitySplashScreen;
 #endif
 
 #if UNITY_2018_1_OR_NEWER
-                if (!EditorPrefs.HasKey(ignore + defaultIsFullScreen))
-                    PlayerSettings.fullScreenMode = recommended_FullScreenMode;
+                    if (!EditorPrefs.HasKey(ignore + defaultIsFullScreen))
+                        PlayerSettings.fullScreenMode = recommended_FullScreenMode;
 #else
                     if (!EditorPrefs.HasKey(ignore + defaultIsFullScreen))
                         PlayerSettings.defaultIsFullScreen = recommended_DefaultIsFullScreen;
@@ -591,6 +598,7 @@ namespace Valve.VR
                         PlayerSettings.defaultScreenWidth = recommended_DefaultScreenWidth;
                         PlayerSettings.defaultScreenHeight = recommended_DefaultScreenHeight;
                     }
+
                     if (!EditorPrefs.HasKey(ignore + runInBackground))
                         PlayerSettings.runInBackground = recommended_RunInBackground;
                     if (!EditorPrefs.HasKey(ignore + displayResolutionDialog))
@@ -627,16 +635,16 @@ namespace Valve.VR
 #if (UNITY_5_4 || UNITY_5_3 || UNITY_5_2 || UNITY_5_1 || UNITY_5_0)
                         if (PlayerSettings.showUnitySplashScreen != recommended_ShowUnitySplashScreen)
 #else
-					if (PlayerSettings.SplashScreen.show != recommended_ShowUnitySplashScreen)
+                        if (PlayerSettings.SplashScreen.show != recommended_ShowUnitySplashScreen)
 #endif
                             EditorPrefs.SetBool(ignore + showUnitySplashScreen, true);
 
 #if UNITY_2018_1_OR_NEWER
-                    if (PlayerSettings.fullScreenMode != recommended_FullScreenMode)
-                    {
-                        EditorPrefs.SetBool(ignore + defaultIsFullScreen, true);
-                        EditorPrefs.SetBool(ignore + fullscreenMode, true);
-                    }
+                        if (PlayerSettings.fullScreenMode != recommended_FullScreenMode)
+                        {
+                            EditorPrefs.SetBool(ignore + defaultIsFullScreen, true);
+                            EditorPrefs.SetBool(ignore + fullscreenMode, true);
+                        }
 #else
                         if (PlayerSettings.defaultIsFullScreen != recommended_DefaultIsFullScreen)
                             EditorPrefs.SetBool(ignore + defaultIsFullScreen, true);

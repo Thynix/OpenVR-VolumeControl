@@ -12,7 +12,7 @@ namespace Valve.VR
         public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
         {
             SteamVR_Input.InitializeFile();
-            
+
             FileInfo fileInfo = new FileInfo(pathToBuiltProject);
             string buildPath = fileInfo.Directory.FullName;
 
@@ -46,7 +46,8 @@ namespace Valve.VR
 
                 string currentAppKey = jsonText.Substring(stringStart, stringLength);
 
-                if (string.Equals(currentAppKey, SteamVR_Settings.instance.editorAppKey, System.StringComparison.CurrentCultureIgnoreCase) == false)
+                if (string.Equals(currentAppKey, SteamVR_Settings.instance.editorAppKey,
+                        System.StringComparison.CurrentCultureIgnoreCase) == false)
                 {
                     jsonText = jsonText.Replace(currentAppKey, SteamVR_Settings.instance.editorAppKey);
 

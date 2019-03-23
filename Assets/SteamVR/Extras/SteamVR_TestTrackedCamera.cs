@@ -1,4 +1,5 @@
 ﻿//======= Copyright (c) Valve Corporation, All rights reserved. ===============
+
 using UnityEngine;
 
 namespace Valve.VR.Extras
@@ -50,7 +51,7 @@ namespace Valve.VR.Extras
             material.mainTexture = texture;
 
             // Adjust the height of the quad based on the aspect to keep the texels square.
-            float aspect = (float)texture.width / texture.height;
+            float aspect = (float) texture.width / texture.height;
 
             // The undistorted video feed has 'bad' areas near the edges where the original
             // square texture feed is stretched to undo the fisheye from the lens.

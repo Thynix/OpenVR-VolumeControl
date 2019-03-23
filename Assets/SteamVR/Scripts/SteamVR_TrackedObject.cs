@@ -14,7 +14,7 @@ namespace Valve.VR
         public enum EIndex
         {
             None = -1,
-            Hmd = (int)OpenVR.k_unTrackedDeviceIndex_Hmd,
+            Hmd = (int) OpenVR.k_unTrackedDeviceIndex_Hmd,
             Device1,
             Device2,
             Device3,
@@ -44,7 +44,7 @@ namespace Valve.VR
             if (index == EIndex.None)
                 return;
 
-            var i = (int)index;
+            var i = (int) index;
 
             isValid = false;
             if (poses.Length <= i)
@@ -105,7 +105,7 @@ namespace Valve.VR
         public void SetDeviceIndex(int index)
         {
             if (System.Enum.IsDefined(typeof(EIndex), index))
-                this.index = (EIndex)index;
+                this.index = (EIndex) index;
         }
     }
 }

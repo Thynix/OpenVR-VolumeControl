@@ -19,9 +19,10 @@ namespace Valve.VR
         public static BrowserApplication GetDefaultBrowser()
         {
 #if UNITY_EDITOR
-    #if UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN
             const string userChoice = @"Software\Microsoft\Windows\Shell\Associations\UrlAssociations\http\UserChoice";
-            using (Microsoft.Win32.RegistryKey userChoiceKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(userChoice))
+            using (Microsoft.Win32.RegistryKey userChoiceKey =
+                Microsoft.Win32.Registry.CurrentUser.OpenSubKey(userChoice))
             {
                 if (userChoiceKey == null)
                 {
@@ -46,14 +47,15 @@ namespace Valve.VR
                     return BrowserApplication.Opera;
                 else if (browserId.Contains("safari"))
                     return BrowserApplication.Safari;
-                else if (browserId.Contains("appcq0fevzme2pys62n3e0fbqa7peapykr8v")) //AppXq0fevzme2pys62n3e0fbqa7peapykr8v
+                else if (browserId.Contains("appcq0fevzme2pys62n3e0fbqa7peapykr8v")
+                ) //AppXq0fevzme2pys62n3e0fbqa7peapykr8v
                     return BrowserApplication.Edge;
                 else
                     return BrowserApplication.Unknown;
             }
-    #else
+#else
             return BrowserApplication.Firefox;
-    #endif
+#endif
 #else
             return BrowserApplication.Firefox;
 #endif

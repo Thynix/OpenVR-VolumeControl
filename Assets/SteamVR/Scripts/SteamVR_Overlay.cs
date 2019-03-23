@@ -17,11 +17,9 @@ namespace Valve.VR
         public bool antialias = true;
         public bool highquality = true;
 
-        [Tooltip("Size of overlay view.")]
-        public float scale = 3.0f;
+        [Tooltip("Size of overlay view.")] public float scale = 3.0f;
 
-        [Tooltip("Distance from surface.")]
-        public float distance = 1.25f;
+        [Tooltip("Distance from surface.")] public float distance = 1.25f;
 
         [Tooltip("Opacity"), Range(0.0f, 1.0f)]
         public float alpha = 1.0f;
@@ -34,7 +32,10 @@ namespace Valve.VR
 
         static public SteamVR_Overlay instance { get; private set; }
 
-        static public string key { get { return "unity:" + Application.companyName + "." + Application.productName; } }
+        static public string key
+        {
+            get { return "unity:" + Application.companyName + "." + Application.productName; }
+        }
 
         private ulong handle = OpenVR.k_ulOverlayHandleInvalid;
 
@@ -150,7 +151,7 @@ namespace Valve.VR
             if (overlay == null)
                 return false;
 
-            var size = (uint)System.Runtime.InteropServices.Marshal.SizeOf(typeof(Valve.VR.VREvent_t));
+            var size = (uint) System.Runtime.InteropServices.Marshal.SizeOf(typeof(Valve.VR.VREvent_t));
             return overlay.PollNextOverlayEvent(handle, ref pEvent, size);
         }
 

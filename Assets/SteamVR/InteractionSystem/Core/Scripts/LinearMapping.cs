@@ -9,9 +9,9 @@ using System.Collections;
 
 namespace Valve.VR.InteractionSystem
 {
-	//-------------------------------------------------------------------------
-	public class LinearMapping : MonoBehaviour
-	{
-		public float value;
-	}
+    //-------------------------------------------------------------------------
+    public class LinearMapping : MonoBehaviour
+    {
+        public float value;
+    }
 }

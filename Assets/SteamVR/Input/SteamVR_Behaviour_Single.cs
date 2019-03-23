@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -45,7 +44,10 @@ namespace Valve.VR
         public AxisHandler onAxisEvent;
 
         /// <summary>Returns whether this action is bound and the action set is active</summary>
-        public bool isActive { get { return singleAction.GetActive(inputSource); } }
+        public bool isActive
+        {
+            get { return singleAction.GetActive(inputSource); }
+        }
 
         protected virtual void OnEnable()
         {
@@ -80,7 +82,8 @@ namespace Valve.VR
             }
         }
 
-        private void SteamVR_Behaviour_Single_OnUpdate(SteamVR_Action_Single fromAction, SteamVR_Input_Sources fromSource, float newAxis, float newDelta)
+        private void SteamVR_Behaviour_Single_OnUpdate(SteamVR_Action_Single fromAction,
+            SteamVR_Input_Sources fromSource, float newAxis, float newDelta)
         {
             if (onUpdate != null)
             {
@@ -93,7 +96,8 @@ namespace Valve.VR
             }
         }
 
-        private void SteamVR_Behaviour_Single_OnChange(SteamVR_Action_Single fromAction, SteamVR_Input_Sources fromSource, float newAxis, float newDelta)
+        private void SteamVR_Behaviour_Single_OnChange(SteamVR_Action_Single fromAction,
+            SteamVR_Input_Sources fromSource, float newAxis, float newDelta)
         {
             if (onChange != null)
             {
@@ -106,7 +110,8 @@ namespace Valve.VR
             }
         }
 
-        private void SteamVR_Behaviour_Single_OnAxis(SteamVR_Action_Single fromAction, SteamVR_Input_Sources fromSource, float newAxis, float newDelta)
+        private void SteamVR_Behaviour_Single_OnAxis(SteamVR_Action_Single fromAction, SteamVR_Input_Sources fromSource,
+            float newAxis, float newDelta)
         {
             if (onAxis != null)
             {
@@ -138,8 +143,13 @@ namespace Valve.VR
             return null;
         }
 
-        public delegate void AxisHandler(SteamVR_Behaviour_Single fromAction, SteamVR_Input_Sources fromSource, float newAxis, float newDelta);
-        public delegate void ChangeHandler(SteamVR_Behaviour_Single fromAction, SteamVR_Input_Sources fromSource, float newAxis, float newDelta);
-        public delegate void UpdateHandler(SteamVR_Behaviour_Single fromAction, SteamVR_Input_Sources fromSource, float newAxis, float newDelta);
+        public delegate void AxisHandler(SteamVR_Behaviour_Single fromAction, SteamVR_Input_Sources fromSource,
+            float newAxis, float newDelta);
+
+        public delegate void ChangeHandler(SteamVR_Behaviour_Single fromAction, SteamVR_Input_Sources fromSource,
+            float newAxis, float newDelta);
+
+        public delegate void UpdateHandler(SteamVR_Behaviour_Single fromAction, SteamVR_Input_Sources fromSource,
+            float newAxis, float newDelta);
     }
 }

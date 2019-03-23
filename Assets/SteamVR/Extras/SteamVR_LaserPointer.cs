@@ -1,4 +1,5 @@
 ﻿//======= Copyright (c) Valve Corporation, All rights reserved. ===============
+
 using UnityEngine;
 using System.Collections;
 
@@ -33,10 +34,10 @@ namespace Valve.VR.Extras
                 pose = this.GetComponent<SteamVR_Behaviour_Pose>();
             if (pose == null)
                 Debug.LogError("No SteamVR_Behaviour_Pose component found on this object");
-            
+
             if (interactWithUI == null)
                 Debug.LogError("No ui interaction action has been set on this component.");
-            
+
 
             holder = new GameObject();
             holder.transform.parent = this.transform;
@@ -55,6 +56,7 @@ namespace Valve.VR.Extras
                 {
                     collider.isTrigger = true;
                 }
+
                 Rigidbody rigidBody = pointer.AddComponent<Rigidbody>();
                 rigidBody.isKinematic = true;
             }
@@ -65,6 +67,7 @@ namespace Valve.VR.Extras
                     Object.Destroy(collider);
                 }
             }
+
             Material newMaterial = new Material(Shader.Find("Unlit/Color"));
             newMaterial.SetColor("_Color", color);
             pointer.GetComponent<MeshRenderer>().material = newMaterial;
@@ -88,7 +91,7 @@ namespace Valve.VR.Extras
                 PointerOut(this, e);
         }
 
-        
+
         private void Update()
         {
             if (!isActive)
@@ -113,6 +116,7 @@ namespace Valve.VR.Extras
                 OnPointerOut(args);
                 previousContact = null;
             }
+
             if (bHit && previousContact != hit.transform)
             {
                 PointerEventArgs argsIn = new PointerEventArgs();
@@ -123,10 +127,12 @@ namespace Valve.VR.Extras
                 OnPointerIn(argsIn);
                 previousContact = hit.transform;
             }
+
             if (!bHit)
             {
                 previousContact = null;
             }
+
             if (bHit && hit.distance < 100f)
             {
                 dist = hit.distance;
@@ -152,6 +158,7 @@ namespace Valve.VR.Extras
                 pointer.transform.localScale = new Vector3(thickness, thickness, dist);
                 pointer.GetComponent<MeshRenderer>().material.color = color;
             }
+
             pointer.transform.localPosition = new Vector3(0f, 0f, dist / 2f);
         }
     }

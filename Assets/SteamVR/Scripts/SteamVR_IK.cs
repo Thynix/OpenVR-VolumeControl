@@ -16,8 +16,7 @@ namespace Valve.VR
 
         public float blendPct = 1.0f;
 
-        [HideInInspector]
-        public Transform startXform, jointXform, endXform;
+        [HideInInspector] public Transform startXform, jointXform, endXform;
 
         void LateUpdate()
         {
@@ -25,7 +24,9 @@ namespace Valve.VR
             if (blendPct < epsilon)
                 return;
 
-            var preUp = upVector ? upVector.up : Vector3.Cross(end.position - start.position, joint.position - start.position).normalized;
+            var preUp = upVector
+                ? upVector.up
+                : Vector3.Cross(end.position - start.position, joint.position - start.position).normalized;
 
             var targetPosition = target.position;
             var targetRotation = target.rotation;

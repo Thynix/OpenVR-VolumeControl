@@ -30,8 +30,7 @@ namespace Valve.VR
         public Size size;
         public Color color = Color.cyan;
 
-        [HideInInspector]
-        public Vector3[] vertices;
+        [HideInInspector] public Vector3[] vertices;
 
         public static bool GetBounds(Size size, ref HmdQuad_t pRect)
         {
@@ -44,7 +43,8 @@ namespace Valve.VR
                 var chaperone = OpenVR.Chaperone;
                 bool success = (chaperone != null) && chaperone.GetPlayAreaRect(ref pRect);
                 if (!success)
-                    Debug.LogWarning("<b>[SteamVR]</b> Failed to get Calibrated Play Area bounds!  Make sure you have tracking first, and that your space is calibrated.");
+                    Debug.LogWarning(
+                        "<b>[SteamVR]</b> Failed to get Calibrated Play Area bounds!  Make sure you have tracking first, and that your space is calibrated.");
 
                 if (temporarySession)
                     SteamVR.ExitTemporarySession();
@@ -56,7 +56,7 @@ namespace Valve.VR
                 try
                 {
                     var str = size.ToString().Substring(1);
-                    var arr = str.Split(new char[] { 'x' }, 2);
+                    var arr = str.Split(new char[] {'x'}, 2);
 
                     // convert to half size in meters (from cm)
                     var x = float.Parse(arr[0]) / 200;
@@ -80,7 +80,9 @@ namespace Valve.VR
 
                     return true;
                 }
-                catch { }
+                catch
+                {
+                }
             }
 
             return false;
@@ -92,7 +94,7 @@ namespace Valve.VR
             if (!GetBounds(size, ref rect))
                 return;
 
-            var corners = new HmdVector3_t[] { rect.vCorners0, rect.vCorners1, rect.vCorners2, rect.vCorners3 };
+            var corners = new HmdVector3_t[] {rect.vCorners0, rect.vCorners1, rect.vCorners2, rect.vCorners3};
 
             vertices = new Vector3[corners.Length * 2];
             for (int i = 0; i < corners.Length; i++)
@@ -124,38 +126,38 @@ namespace Valve.VR
 
             var triangles = new int[]
             {
-            0, 4, 1,
-            1, 4, 5,
-            1, 5, 2,
-            2, 5, 6,
-            2, 6, 3,
-            3, 6, 7,
-            3, 7, 0,
-            0, 7, 4
+                0, 4, 1,
+                1, 4, 5,
+                1, 5, 2,
+                2, 5, 6,
+                2, 6, 3,
+                3, 6, 7,
+                3, 7, 0,
+                0, 7, 4
             };
 
             var uv = new Vector2[]
             {
-            new Vector2(0.0f, 0.0f),
-            new Vector2(1.0f, 0.0f),
-            new Vector2(0.0f, 0.0f),
-            new Vector2(1.0f, 0.0f),
-            new Vector2(0.0f, 1.0f),
-            new Vector2(1.0f, 1.0f),
-            new Vector2(0.0f, 1.0f),
-            new Vector2(1.0f, 1.0f)
+                new Vector2(0.0f, 0.0f),
+                new Vector2(1.0f, 0.0f),
+                new Vector2(0.0f, 0.0f),
+                new Vector2(1.0f, 0.0f),
+                new Vector2(0.0f, 1.0f),
+                new Vector2(1.0f, 1.0f),
+                new Vector2(0.0f, 1.0f),
+                new Vector2(1.0f, 1.0f)
             };
 
             var colors = new Color[]
             {
-            color,
-            color,
-            color,
-            color,
-            new Color(color.r, color.g, color.b, 0.0f),
-            new Color(color.r, color.g, color.b, 0.0f),
-            new Color(color.r, color.g, color.b, 0.0f),
-            new Color(color.r, color.g, color.b, 0.0f)
+                color,
+                color,
+                color,
+                color,
+                new Color(color.r, color.g, color.b, 0.0f),
+                new Color(color.r, color.g, color.b, 0.0f),
+                new Color(color.r, color.g, color.b, 0.0f),
+                new Color(color.r, color.g, color.b, 0.0f)
             };
 
             var mesh = new Mesh();
@@ -179,7 +181,8 @@ namespace Valve.VR
         {
             if (!Application.isPlaying)
             {
-                var fields = GetType().GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+                var fields = GetType()
+                    .GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
 
                 bool rebuild = false;
 

@@ -77,6 +77,7 @@ public class SteamVR_Editor : Editor
                         }
                     }
                 }
+
                 GUILayout.Space(18);
                 GUILayout.EndHorizontal();
             }
@@ -97,6 +98,7 @@ public class SteamVR_Editor : Editor
                         }
                     }
                 }
+
                 GUILayout.Space(18);
                 GUILayout.EndHorizontal();
             }
@@ -110,7 +112,8 @@ public class SteamVR_Editor : Editor
 
     public static void ExportPackage()
     {
-        AssetDatabase.ExportPackage(new string[] {
+        AssetDatabase.ExportPackage(new string[]
+        {
             "Assets/SteamVR",
             "Assets/Plugins/openvr_api.cs",
             "Assets/Plugins/openvr_api.bundle",

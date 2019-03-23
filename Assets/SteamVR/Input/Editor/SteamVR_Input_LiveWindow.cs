@@ -1,11 +1,9 @@
 ﻿using UnityEditor;
 using UnityEngine;
-
 using System.CodeDom;
 using Microsoft.CSharp;
 using System.IO;
 using System.CodeDom.Compiler;
-
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
@@ -85,7 +83,7 @@ namespace Valve.VR
             {
                 labelStyle = new GUIStyle(EditorStyles.textField);
                 labelStyle.normal.background = Texture2D.whiteTexture;
-                
+
                 setLabelStyle = new GUIStyle(EditorStyles.label);
                 setLabelStyle.wordWrap = true;
                 setLabelStyle.normal.background = Texture2D.whiteTexture;
@@ -120,7 +118,7 @@ namespace Valve.VR
             }
 
             DrawMap();
-            
+
             for (int sourceIndex = 0; sourceIndex < sources.Length; sourceIndex++)
             {
                 SteamVR_Input_Sources source = sources[sourceIndex];
@@ -150,11 +148,12 @@ namespace Valve.VR
                     }
 
                     EditorGUILayout.BeginHorizontal();
-                        setFoldouts[source][set.GetShortName()] = EditorGUILayout.Foldout(setFoldouts[source][set.GetShortName()], set.GetShortName());
+                    setFoldouts[source][set.GetShortName()] =
+                        EditorGUILayout.Foldout(setFoldouts[source][set.GetShortName()], set.GetShortName());
 
-                        EditorGUILayout.LabelField(activeText, labelStyle);
+                    EditorGUILayout.LabelField(activeText, labelStyle);
 
-                        GUI.backgroundColor = defaultColor;
+                    GUI.backgroundColor = defaultColor;
                     EditorGUILayout.EndHorizontal();
 
                     if (setFoldouts[source][set.GetShortName()] == false)
@@ -218,40 +217,43 @@ namespace Valve.VR
 
                         if (action is SteamVR_Action_Boolean)
                         {
-                            SteamVR_Action_Boolean actionBoolean = (SteamVR_Action_Boolean)action;
+                            SteamVR_Action_Boolean actionBoolean = (SteamVR_Action_Boolean) action;
                             actionText = actionBoolean.GetState(source).ToString();
                         }
                         else if (action is SteamVR_Action_Single)
                         {
-                            SteamVR_Action_Single actionSingle = (SteamVR_Action_Single)action;
+                            SteamVR_Action_Single actionSingle = (SteamVR_Action_Single) action;
                             actionText = actionSingle.GetAxis(source).ToString("0.0000");
                         }
                         else if (action is SteamVR_Action_Vector2)
                         {
-                            SteamVR_Action_Vector2 actionVector2 = (SteamVR_Action_Vector2)action;
-                            actionText = string.Format("({0:0.0000}, {1:0.0000})", actionVector2.GetAxis(source).x, actionVector2.GetAxis(source).y);
+                            SteamVR_Action_Vector2 actionVector2 = (SteamVR_Action_Vector2) action;
+                            actionText = string.Format("({0:0.0000}, {1:0.0000})", actionVector2.GetAxis(source).x,
+                                actionVector2.GetAxis(source).y);
                         }
                         else if (action is SteamVR_Action_Vector3)
                         {
-                            SteamVR_Action_Vector3 actionVector3 = (SteamVR_Action_Vector3)action;
+                            SteamVR_Action_Vector3 actionVector3 = (SteamVR_Action_Vector3) action;
                             Vector3 axis = actionVector3.GetAxis(source);
                             actionText = string.Format("({0:0.0000}, {1:0.0000}, {2:0.0000})", axis.x, axis.y, axis.z);
                         }
                         else if (action is SteamVR_Action_Pose)
                         {
-                            SteamVR_Action_Pose actionPose = (SteamVR_Action_Pose)action;
+                            SteamVR_Action_Pose actionPose = (SteamVR_Action_Pose) action;
                             Vector3 position = actionPose.GetLocalPosition(source);
                             Quaternion rotation = actionPose.GetLocalRotation(source);
-                            actionText = string.Format("({0:0.0000}, {1:0.0000}, {2:0.0000}) : ({3:0.0000}, {4:0.0000}, {5:0.0000}, {6:0.0000})",
+                            actionText = string.Format(
+                                "({0:0.0000}, {1:0.0000}, {2:0.0000}) : ({3:0.0000}, {4:0.0000}, {5:0.0000}, {6:0.0000})",
                                 position.x, position.y, position.z,
                                 rotation.x, rotation.y, rotation.z, rotation.w);
                         }
                         else if (action is SteamVR_Action_Skeleton)
                         {
-                            SteamVR_Action_Skeleton actionSkeleton = (SteamVR_Action_Skeleton)action;
+                            SteamVR_Action_Skeleton actionSkeleton = (SteamVR_Action_Skeleton) action;
                             Vector3 position = actionSkeleton.GetLocalPosition(source);
                             Quaternion rotation = actionSkeleton.GetLocalRotation(source);
-                            actionText = string.Format("({0:0.0000}, {1:0.0000}, {2:0.0000}) : ({3:0.0000}, {4:0.0000}, {5:0.0000}, {6:0.0000})",
+                            actionText = string.Format(
+                                "({0:0.0000}, {1:0.0000}, {2:0.0000}) : ({3:0.0000}, {4:0.0000}, {5:0.0000}, {6:0.0000})",
                                 position.x, position.y, position.z,
                                 rotation.x, rotation.y, rotation.z, rotation.w);
                         }

@@ -18,11 +18,9 @@ namespace Valve.VR.InteractionSystem
 
         public Vector3 localMoveDistance = new Vector3(0, -0.1f, 0);
 
-        [Range(0, 1)]
-        public float engageAtPercent = 0.95f;
+        [Range(0, 1)] public float engageAtPercent = 0.95f;
 
-        [Range(0, 1)]
-        public float disengageAtPercent = 0.9f;
+        [Range(0, 1)] public float disengageAtPercent = 0.9f;
 
         public HandEvent onButtonDown;
         public HandEvent onButtonUp;
@@ -58,7 +56,8 @@ namespace Valve.VR.InteractionSystem
 
             bool wasEngaged = engaged;
 
-            float currentDistance = Vector3.Distance(movingPart.parent.InverseTransformPoint(hand.transform.position), endPosition);
+            float currentDistance = Vector3.Distance(movingPart.parent.InverseTransformPoint(hand.transform.position),
+                endPosition);
             float enteredDistance = Vector3.Distance(handEnteredPosition, endPosition);
 
             if (currentDistance > enteredDistance)

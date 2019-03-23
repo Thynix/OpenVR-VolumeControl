@@ -46,7 +46,7 @@ namespace Valve.VR
 
         public int GetHashCode(SteamVR_Input_Sources obj)
         {
-            return (int)obj;
+            return (int) obj;
         }
     }
 }

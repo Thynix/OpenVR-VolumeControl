@@ -1,11 +1,9 @@
 ﻿using UnityEditor;
 using UnityEngine;
-
 using System.CodeDom;
 using Microsoft.CSharp;
 using System.IO;
 using System.CodeDom.Compiler;
-
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
@@ -47,7 +45,7 @@ namespace Valve.VR
             }
             else
             {
-                enumItems = new string[] { "None", "Add..." };
+                enumItems = new string[] {"None", "Add..."};
             }
 
             addIndex = enumItems.Length - 1;

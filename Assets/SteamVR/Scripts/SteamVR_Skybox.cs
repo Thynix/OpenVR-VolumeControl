@@ -16,8 +16,13 @@ namespace Valve.VR
 
         public enum CellSize
         {
-            x1024, x64, x32, x16, x8
+            x1024,
+            x64,
+            x32,
+            x16,
+            x8
         }
+
         public CellSize StereoCellSize = CellSize.x32;
 
         public float StereoIpdMm = 64.0f;
@@ -64,6 +69,7 @@ namespace Valve.VR
                 case 5:
                     return bottom;
             }
+
             return null;
         }
 
@@ -78,7 +84,7 @@ namespace Valve.VR
             var compositor = OpenVR.Compositor;
             if (compositor != null)
             {
-                var handles = new Texture[] { front, back, left, right, top, bottom };
+                var handles = new Texture[] {front, back, left, right, top, bottom};
                 var textures = new Texture_t[6];
                 for (int i = 0; i < 6; i++)
                 {
@@ -86,12 +92,14 @@ namespace Valve.VR
                     textures[i].eType = SteamVR.instance.textureType;
                     textures[i].eColorSpace = EColorSpace.Auto;
                 }
+
                 var error = compositor.SetSkyboxOverride(textures);
                 if (error != EVRCompositorError.None)
                 {
                     Debug.LogError("<b>[SteamVR]</b> Failed to set skybox override with error: " + error);
                     if (error == EVRCompositorError.TextureIsOnWrongDevice)
-                        Debug.Log("<b>[SteamVR]</b> Set your graphics driver to use the same video card as the headset is plugged into for Unity.");
+                        Debug.Log(
+                            "<b>[SteamVR]</b> Set your graphics driver to use the same video card as the headset is plugged into for Unity.");
                     else if (error == EVRCompositorError.TextureUsesUnsupportedFormat)
                         Debug.Log("<b>[SteamVR]</b> Ensure skybox textures are not compressed and have no mipmaps.");
                 }

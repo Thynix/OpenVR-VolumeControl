@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Valve.VR;
-
 using System.Linq;
 
 namespace Valve.VR
@@ -14,8 +13,8 @@ namespace Valve.VR
         public SteamVR_Skeleton_Pose_Hand leftHand = new SteamVR_Skeleton_Pose_Hand(SteamVR_Input_Sources.LeftHand);
         public SteamVR_Skeleton_Pose_Hand rightHand = new SteamVR_Skeleton_Pose_Hand(SteamVR_Input_Sources.RightHand);
 
-        protected const int leftHandInputSource = (int)SteamVR_Input_Sources.LeftHand;
-        protected const int rightHandInputSource = (int)SteamVR_Input_Sources.RightHand;
+        protected const int leftHandInputSource = (int) SteamVR_Input_Sources.LeftHand;
+        protected const int rightHandInputSource = (int) SteamVR_Input_Sources.RightHand;
 
         public SteamVR_Skeleton_Pose_Hand GetHand(int hand)
         {
@@ -41,11 +40,20 @@ namespace Valve.VR
     {
         public SteamVR_Input_Sources inputSource;
 
-        public SteamVR_Skeleton_FingerExtensionTypes thumbFingerMovementType = SteamVR_Skeleton_FingerExtensionTypes.Static;
-        public SteamVR_Skeleton_FingerExtensionTypes indexFingerMovementType = SteamVR_Skeleton_FingerExtensionTypes.Static;
-        public SteamVR_Skeleton_FingerExtensionTypes middleFingerMovementType = SteamVR_Skeleton_FingerExtensionTypes.Static;
-        public SteamVR_Skeleton_FingerExtensionTypes ringFingerMovementType = SteamVR_Skeleton_FingerExtensionTypes.Static;
-        public SteamVR_Skeleton_FingerExtensionTypes pinkyFingerMovementType = SteamVR_Skeleton_FingerExtensionTypes.Static;
+        public SteamVR_Skeleton_FingerExtensionTypes thumbFingerMovementType =
+            SteamVR_Skeleton_FingerExtensionTypes.Static;
+
+        public SteamVR_Skeleton_FingerExtensionTypes indexFingerMovementType =
+            SteamVR_Skeleton_FingerExtensionTypes.Static;
+
+        public SteamVR_Skeleton_FingerExtensionTypes middleFingerMovementType =
+            SteamVR_Skeleton_FingerExtensionTypes.Static;
+
+        public SteamVR_Skeleton_FingerExtensionTypes ringFingerMovementType =
+            SteamVR_Skeleton_FingerExtensionTypes.Static;
+
+        public SteamVR_Skeleton_FingerExtensionTypes pinkyFingerMovementType =
+            SteamVR_Skeleton_FingerExtensionTypes.Static;
 
         /// <summary>
         /// Get extension type for a particular finger. Thumb is 0, Index is 1, etc.
@@ -119,17 +127,20 @@ namespace Valve.VR
     public class SteamVR_Skeleton_FingerExtensionTypeLists
     {
         private SteamVR_Skeleton_FingerExtensionTypes[] _enumList;
+
         public SteamVR_Skeleton_FingerExtensionTypes[] enumList
         {
             get
             {
                 if (_enumList == null)
-                    _enumList = (SteamVR_Skeleton_FingerExtensionTypes[])System.Enum.GetValues(typeof(SteamVR_Skeleton_FingerExtensionTypes));
+                    _enumList = (SteamVR_Skeleton_FingerExtensionTypes[]) System.Enum.GetValues(
+                        typeof(SteamVR_Skeleton_FingerExtensionTypes));
                 return _enumList;
             }
         }
 
         private string[] _stringList;
+
         public string[] stringList
         {
             get

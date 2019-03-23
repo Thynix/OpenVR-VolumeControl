@@ -11,11 +11,10 @@ using System.Collections.Generic;
 
 namespace Valve.VR.InteractionSystem
 {
-	//-------------------------------------------------------------------------
-	public class InteractableDebug : MonoBehaviour
-	{
-        [System.NonSerialized]
-        public Hand attachedToHand;
+    //-------------------------------------------------------------------------
+    public class InteractableDebug : MonoBehaviour
+    {
+        [System.NonSerialized] public Hand attachedToHand;
 
         public float simulateReleasesForXSecondsAroundRelease = 0;
         public float simulateReleasesEveryXSeconds = 0.005f;
@@ -28,7 +27,11 @@ namespace Valve.VR.InteractionSystem
         private Color lastColor;
 
         private Throwable throwable;
-        private bool isThrowable { get { return throwable != null; } }
+
+        private bool isThrowable
+        {
+            get { return throwable != null; }
+        }
 
         private const bool onlyColorOnChange = true;
 
@@ -42,8 +45,8 @@ namespace Valve.VR.InteractionSystem
             colliders = this.GetComponentsInChildren<Collider>();
         }
 
-        private void OnAttachedToHand( Hand hand )
-		{
+        private void OnAttachedToHand(Hand hand)
+        {
             attachedToHand = hand;
 
             CreateMarker(Color.green);
@@ -79,9 +82,9 @@ namespace Valve.VR.InteractionSystem
             lastColor = grabbedColor;
         }
 
-        
-        private void OnDetachedFromHand( Hand hand )
-		{
+
+        private void OnDetachedFromHand(Hand hand)
+        {
             if (isThrowable)
             {
                 Vector3 velocity;
@@ -118,7 +121,7 @@ namespace Valve.VR.InteractionSystem
                     }
                 }
             }
-		}
+        }
 
         public Collider[] GetColliders()
         {
@@ -139,6 +142,7 @@ namespace Valve.VR.InteractionSystem
         }
 
         private bool isSimulation = false;
+
         public void SetIsSimulation()
         {
             isSimulation = true;

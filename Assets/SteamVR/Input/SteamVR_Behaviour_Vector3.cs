@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -42,7 +41,10 @@ namespace Valve.VR
 
 
         /// <summary>Returns whether this action is bound and the action set is active</summary>
-        public bool isActive { get { return vector3Action.GetActive(inputSource); } }
+        public bool isActive
+        {
+            get { return vector3Action.GetActive(inputSource); }
+        }
 
         protected virtual void OnEnable()
         {
@@ -77,36 +79,42 @@ namespace Valve.VR
             }
         }
 
-        private void SteamVR_Behaviour_Vector3_OnUpdate(SteamVR_Action_Vector3 fromAction, SteamVR_Input_Sources fromSource, Vector3 newAxis, Vector3 newDelta)
+        private void SteamVR_Behaviour_Vector3_OnUpdate(SteamVR_Action_Vector3 fromAction,
+            SteamVR_Input_Sources fromSource, Vector3 newAxis, Vector3 newDelta)
         {
             if (onUpdate != null)
             {
                 onUpdate.Invoke(this, fromSource, newAxis, newDelta);
             }
+
             if (onUpdateEvent != null)
             {
                 onUpdateEvent.Invoke(this, fromSource, newAxis, newDelta);
             }
         }
 
-        private void SteamVR_Behaviour_Vector3_OnChange(SteamVR_Action_Vector3 fromAction, SteamVR_Input_Sources fromSource, Vector3 newAxis, Vector3 newDelta)
+        private void SteamVR_Behaviour_Vector3_OnChange(SteamVR_Action_Vector3 fromAction,
+            SteamVR_Input_Sources fromSource, Vector3 newAxis, Vector3 newDelta)
         {
             if (onChange != null)
             {
                 onChange.Invoke(this, fromSource, newAxis, newDelta);
             }
+
             if (onChangeEvent != null)
             {
                 onChangeEvent.Invoke(this, fromSource, newAxis, newDelta);
             }
         }
 
-        private void SteamVR_Behaviour_Vector3_OnAxis(SteamVR_Action_Vector3 fromAction, SteamVR_Input_Sources fromSource, Vector3 newAxis, Vector3 newDelta)
+        private void SteamVR_Behaviour_Vector3_OnAxis(SteamVR_Action_Vector3 fromAction,
+            SteamVR_Input_Sources fromSource, Vector3 newAxis, Vector3 newDelta)
         {
             if (onAxis != null)
             {
                 onAxis.Invoke(this, fromSource, newAxis, newDelta);
             }
+
             if (onAxisEvent != null)
             {
                 onAxisEvent.Invoke(this, fromSource, newAxis, newDelta);
@@ -131,8 +139,13 @@ namespace Valve.VR
             return null;
         }
 
-        public delegate void AxisHandler(SteamVR_Behaviour_Vector3 fromAction, SteamVR_Input_Sources fromSource, Vector3 newAxis, Vector3 newDelta);
-        public delegate void ChangeHandler(SteamVR_Behaviour_Vector3 fromAction, SteamVR_Input_Sources fromSource, Vector3 newAxis, Vector3 newDelta);
-        public delegate void UpdateHandler(SteamVR_Behaviour_Vector3 fromAction, SteamVR_Input_Sources fromSource, Vector3 newAxis, Vector3 newDelta);
+        public delegate void AxisHandler(SteamVR_Behaviour_Vector3 fromAction, SteamVR_Input_Sources fromSource,
+            Vector3 newAxis, Vector3 newDelta);
+
+        public delegate void ChangeHandler(SteamVR_Behaviour_Vector3 fromAction, SteamVR_Input_Sources fromSource,
+            Vector3 newAxis, Vector3 newDelta);
+
+        public delegate void UpdateHandler(SteamVR_Behaviour_Vector3 fromAction, SteamVR_Input_Sources fromSource,
+            Vector3 newAxis, Vector3 newDelta);
     }
 }

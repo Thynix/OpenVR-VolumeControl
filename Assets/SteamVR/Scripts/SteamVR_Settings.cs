@@ -10,6 +10,7 @@ namespace Valve.VR
     public class SteamVR_Settings : ScriptableObject
     {
         private static SteamVR_Settings _instance;
+
         public static SteamVR_Settings instance
         {
             get
@@ -22,7 +23,9 @@ namespace Valve.VR
 
         public bool pauseGameWhenDashboardVisible = true;
         public bool lockPhysicsUpdateRateToRenderFrequency = true;
-        public Valve.VR.ETrackingUniverseOrigin trackingSpace = Valve.VR.ETrackingUniverseOrigin.TrackingUniverseStanding;
+
+        public Valve.VR.ETrackingUniverseOrigin trackingSpace =
+            Valve.VR.ETrackingUniverseOrigin.TrackingUniverseStanding;
 
         [Tooltip("Filename local to the project root (or executable, in a build)")]
         public string actionsFilePath = "actions.json";
@@ -35,16 +38,19 @@ namespace Valve.VR
 
         public bool activateFirstActionSetOnStart = true;
 
-        [Tooltip("This is the app key the unity editor will use to identify your application. (can be \"steam.app.[appid]\" to persist bindings between editor steam)")]
+        [Tooltip(
+            "This is the app key the unity editor will use to identify your application. (can be \"steam.app.[appid]\" to persist bindings between editor steam)")]
         public string editorAppKey;
 
-        [Tooltip("The SteamVR Plugin can automatically make sure VR is enabled in your player settings and if not, enable it.")]
+        [Tooltip(
+            "The SteamVR Plugin can automatically make sure VR is enabled in your player settings and if not, enable it.")]
         public bool autoEnableVR = true;
 
         public bool IsInputUpdateMode(SteamVR_UpdateModes tocheck)
         {
             return (inputUpdateMode & tocheck) == tocheck;
         }
+
         public bool IsPoseUpdateMode(SteamVR_UpdateModes tocheck)
         {
             return (poseUpdateMode & tocheck) == tocheck;
@@ -77,7 +83,8 @@ namespace Valve.VR
                 if (string.IsNullOrEmpty(_instance.editorAppKey))
                 {
                     _instance.editorAppKey = SteamVR.GenerateAppKey();
-                    Debug.Log("<b>[SteamVR Setup]</b> Generated you an editor app key of: " + _instance.editorAppKey + ". This lets the editor tell SteamVR what project this is. Has no effect on builds. This can be changed in Assets/SteamVR/Resources/SteamVR_Settings");
+                    Debug.Log("<b>[SteamVR Setup]</b> Generated you an editor app key of: " + _instance.editorAppKey +
+                              ". This lets the editor tell SteamVR what project this is. Has no effect on builds. This can be changed in Assets/SteamVR/Resources/SteamVR_Settings");
 #if UNITY_EDITOR
                     UnityEditor.EditorUtility.SetDirty(_instance);
                     UnityEditor.AssetDatabase.SaveAssets();

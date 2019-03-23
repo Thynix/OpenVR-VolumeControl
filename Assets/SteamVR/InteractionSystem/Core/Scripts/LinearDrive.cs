@@ -9,16 +9,16 @@ using System.Collections;
 
 namespace Valve.VR.InteractionSystem
 {
-	//-------------------------------------------------------------------------
-	[RequireComponent( typeof( Interactable ) )]
-	public class LinearDrive : MonoBehaviour
-	{
-		public Transform startPosition;
-		public Transform endPosition;
-		public LinearMapping linearMapping;
-		public bool repositionGameObject = true;
-		public bool maintainMomemntum = true;
-		public float momemtumDampenRate = 5.0f;
+    //-------------------------------------------------------------------------
+    [RequireComponent(typeof(Interactable))]
+    public class LinearDrive : MonoBehaviour
+    {
+        public Transform startPosition;
+        public Transform endPosition;
+        public LinearMapping linearMapping;
+        public bool repositionGameObject = true;
+        public bool maintainMomemntum = true;
+        public float momemtumDampenRate = 5.0f;
 
         protected Hand.AttachmentFlags attachmentFlags = Hand.AttachmentFlags.DetachFromOtherHand;
 
@@ -39,41 +39,41 @@ namespace Valve.VR.InteractionSystem
         }
 
         protected virtual void Start()
-		{
-			if ( linearMapping == null )
-			{
-				linearMapping = GetComponent<LinearMapping>();
-			}
+        {
+            if (linearMapping == null)
+            {
+                linearMapping = GetComponent<LinearMapping>();
+            }
 
-			if ( linearMapping == null )
-			{
-				linearMapping = gameObject.AddComponent<LinearMapping>();
-			}
+            if (linearMapping == null)
+            {
+                linearMapping = gameObject.AddComponent<LinearMapping>();
+            }
 
             initialMappingOffset = linearMapping.value;
 
             // Update mapping on startup to reflect initial object position.
             // TODO: Any reason for this to be behind repositionGameObject? It
             //       doesn't reposition it without it.
-			if ( repositionGameObject )
-			{
-				UpdateLinearMapping( transform );
-			}
-		}
+            if (repositionGameObject)
+            {
+                UpdateLinearMapping(transform);
+            }
+        }
 
-        protected virtual void HandHoverUpdate( Hand hand )
+        protected virtual void HandHoverUpdate(Hand hand)
         {
             GrabTypes startingGrabType = hand.GetGrabStarting();
 
             if (interactable.attachedToHand == null && startingGrabType != GrabTypes.None)
             {
-                initialMappingOffset = linearMapping.value - CalculateLinearMapping( hand.transform );
-				sampleCount = 0;
-				mappingChangeRate = 0.0f;
+                initialMappingOffset = linearMapping.value - CalculateLinearMapping(hand.transform);
+                sampleCount = 0;
+                mappingChangeRate = 0.0f;
 
                 hand.AttachObject(gameObject, startingGrabType, attachmentFlags);
             }
-		}
+        }
 
         protected virtual void HandAttachedUpdate(Hand hand)
         {
@@ -92,54 +92,56 @@ namespace Valve.VR.InteractionSystem
 
 
         protected void CalculateMappingChangeRate()
-		{
-			//Compute the mapping change rate
-			mappingChangeRate = 0.0f;
-			int mappingSamplesCount = Mathf.Min( sampleCount, mappingChangeSamples.Length );
-			if ( mappingSamplesCount != 0 )
-			{
-				for ( int i = 0; i < mappingSamplesCount; ++i )
-				{
-					mappingChangeRate += mappingChangeSamples[i];
-				}
-				mappingChangeRate /= mappingSamplesCount;
-			}
-		}
+        {
+            //Compute the mapping change rate
+            mappingChangeRate = 0.0f;
+            int mappingSamplesCount = Mathf.Min(sampleCount, mappingChangeSamples.Length);
+            if (mappingSamplesCount != 0)
+            {
+                for (int i = 0; i < mappingSamplesCount; ++i)
+                {
+                    mappingChangeRate += mappingChangeSamples[i];
+                }
 
-        protected void UpdateLinearMapping( Transform updateTransform )
-		{
-			prevMapping = linearMapping.value;
-			linearMapping.value = Mathf.Clamp01( initialMappingOffset + CalculateLinearMapping( updateTransform ) );
+                mappingChangeRate /= mappingSamplesCount;
+            }
+        }
 
-			mappingChangeSamples[sampleCount % mappingChangeSamples.Length] = ( 1.0f / Time.deltaTime ) * ( linearMapping.value - prevMapping );
-			sampleCount++;
+        protected void UpdateLinearMapping(Transform updateTransform)
+        {
+            prevMapping = linearMapping.value;
+            linearMapping.value = Mathf.Clamp01(initialMappingOffset + CalculateLinearMapping(updateTransform));
+
+            mappingChangeSamples[sampleCount % mappingChangeSamples.Length] =
+                (1.0f / Time.deltaTime) * (linearMapping.value - prevMapping);
+            sampleCount++;
 
             RepositionGameObject();
         }
 
-        protected float CalculateLinearMapping( Transform updateTransform )
-		{
-			Vector3 direction = endPosition.position - startPosition.position;
-			float length = direction.magnitude;
-			direction.Normalize();
-
-			Vector3 displacement = updateTransform.position - startPosition.position;
-
-			return Vector3.Dot( displacement, direction ) / length;
-		}
-
-        
-		protected virtual void Update()
+        protected float CalculateLinearMapping(Transform updateTransform)
         {
-            if ( maintainMomemntum && mappingChangeRate != 0.0f )
-			{
-				//Dampen the mapping change rate and apply it to the mapping
-				mappingChangeRate = Mathf.Lerp( mappingChangeRate, 0.0f, momemtumDampenRate * Time.deltaTime );
-				linearMapping.value = Mathf.Clamp01( linearMapping.value + ( mappingChangeRate * Time.deltaTime ) );
+            Vector3 direction = endPosition.position - startPosition.position;
+            float length = direction.magnitude;
+            direction.Normalize();
+
+            Vector3 displacement = updateTransform.position - startPosition.position;
+
+            return Vector3.Dot(displacement, direction) / length;
+        }
+
+
+        protected virtual void Update()
+        {
+            if (maintainMomemntum && mappingChangeRate != 0.0f)
+            {
+                //Dampen the mapping change rate and apply it to the mapping
+                mappingChangeRate = Mathf.Lerp(mappingChangeRate, 0.0f, momemtumDampenRate * Time.deltaTime);
+                linearMapping.value = Mathf.Clamp01(linearMapping.value + (mappingChangeRate * Time.deltaTime));
 
                 RepositionGameObject();
-			}
-		}
+            }
+        }
 
         private void RepositionGameObject()
         {
@@ -148,5 +150,5 @@ namespace Valve.VR.InteractionSystem
                 transform.position = Vector3.Lerp(startPosition.position, endPosition.position, linearMapping.value);
             }
         }
-	}
+    }
 }

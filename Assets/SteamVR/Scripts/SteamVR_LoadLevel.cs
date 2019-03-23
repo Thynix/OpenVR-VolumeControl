@@ -14,11 +14,17 @@ namespace Valve.VR
     public class SteamVR_LoadLevel : MonoBehaviour
     {
         private static SteamVR_LoadLevel _active = null;
-        public static bool loading { get { return _active != null; } }
+
+        public static bool loading
+        {
+            get { return _active != null; }
+        }
+
         public static float progress
         {
             get { return (_active != null && _active.async != null) ? _active.async.progress : 0.0f; }
         }
+
         public static Texture progressTexture
         {
             get { return (_active != null) ? _active.renderTexture : null; }
@@ -125,7 +131,8 @@ namespace Valve.VR
             if (progressBarEmpty != null && progressBarFull != null)
             {
                 if (progressBarOverlayHandle == OpenVR.k_ulOverlayHandleInvalid)
-                    progressBarOverlayHandle = GetOverlayHandle("progressBar", progressBarTransform != null ? progressBarTransform : transform, progressBarWidthInMeters);
+                    progressBarOverlayHandle = GetOverlayHandle("progressBar",
+                        progressBarTransform != null ? progressBarTransform : transform, progressBarWidthInMeters);
 
                 if (progressBarOverlayHandle != OpenVR.k_ulOverlayHandleInvalid)
                 {
@@ -153,7 +160,8 @@ namespace Valve.VR
                     GUI.DrawTexture(new Rect(0, 0, w, h), progressBarEmpty);
 
                     // Reveal the full bar texture based on progress.
-                    GUI.DrawTextureWithTexCoords(new Rect(0, 0, progress * w, h), progressBarFull, new Rect(0.0f, 0.0f, progress, 1.0f));
+                    GUI.DrawTextureWithTexCoords(new Rect(0, 0, progress * w, h), progressBarFull,
+                        new Rect(0.0f, 0.0f, progress, 1.0f));
 
                     GUILayout.EndArea();
 
@@ -269,7 +277,8 @@ namespace Valve.VR
             // Optionally create our loading screen overlay.
             if (loadingScreen != null && overlay != null)
             {
-                loadingScreenOverlayHandle = GetOverlayHandle("loadingScreen", loadingScreenTransform != null ? loadingScreenTransform : transform, loadingScreenWidthInMeters);
+                loadingScreenOverlayHandle = GetOverlayHandle("loadingScreen",
+                    loadingScreenTransform != null ? loadingScreenTransform : transform, loadingScreenWidthInMeters);
                 if (loadingScreenOverlayHandle != OpenVR.k_ulOverlayHandleInvalid)
                 {
                     var texture = new Texture_t();
@@ -303,14 +312,16 @@ namespace Valve.VR
                     if (showGrid)
                     {
                         // Set compositor background color immediately, and start fading to it.
-                        compositor.FadeToColor(0.0f, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a, true);
+                        compositor.FadeToColor(0.0f, backgroundColor.r, backgroundColor.g, backgroundColor.b,
+                            backgroundColor.a, true);
                         compositor.FadeGrid(fadeOutTime, true);
                         yield return new WaitForSeconds(fadeOutTime);
                     }
                     else
                     {
                         // Fade the foreground color in (which will blend on top of the scene), and then cut to the compositor.
-                        compositor.FadeToColor(fadeOutTime, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a, false);
+                        compositor.FadeToColor(fadeOutTime, backgroundColor.r, backgroundColor.g, backgroundColor.b,
+                            backgroundColor.a, false);
                         yield return new WaitForSeconds(fadeOutTime + 0.1f);
                         compositor.FadeGrid(0.0f, true);
                         fadedForeground = true;
@@ -357,7 +368,9 @@ namespace Valve.VR
             }
             else
             {
-                var mode = loadAdditive ? UnityEngine.SceneManagement.LoadSceneMode.Additive : UnityEngine.SceneManagement.LoadSceneMode.Single;
+                var mode = loadAdditive
+                    ? UnityEngine.SceneManagement.LoadSceneMode.Additive
+                    : UnityEngine.SceneManagement.LoadSceneMode.Single;
                 if (loadAsync)
                 {
                     Application.backgroundLoadingPriority = ThreadPriority.Low;

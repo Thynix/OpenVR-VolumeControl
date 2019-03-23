@@ -9,28 +9,28 @@ using System.Collections;
 
 namespace Valve.VR.InteractionSystem
 {
-	//-------------------------------------------------------------------------
-	[RequireComponent( typeof( ParticleSystem ) )]
-	public class DestroyOnParticleSystemDeath : MonoBehaviour
-	{
-		private ParticleSystem particles;
+    //-------------------------------------------------------------------------
+    [RequireComponent(typeof(ParticleSystem))]
+    public class DestroyOnParticleSystemDeath : MonoBehaviour
+    {
+        private ParticleSystem particles;
 
-		//-------------------------------------------------
-		void Awake()
-		{
-			particles = GetComponent<ParticleSystem>();
+        //-------------------------------------------------
+        void Awake()
+        {
+            particles = GetComponent<ParticleSystem>();
 
-			InvokeRepeating( "CheckParticleSystem", 0.1f, 0.1f );
-		}
+            InvokeRepeating("CheckParticleSystem", 0.1f, 0.1f);
+        }
 
 
-		//-------------------------------------------------
-		private void CheckParticleSystem()
-		{
-			if ( !particles.IsAlive() )
-			{
-				Destroy( this.gameObject );
-			}
-		}
-	}
+        //-------------------------------------------------
+        private void CheckParticleSystem()
+        {
+            if (!particles.IsAlive())
+            {
+                Destroy(this.gameObject);
+            }
+        }
+    }
 }

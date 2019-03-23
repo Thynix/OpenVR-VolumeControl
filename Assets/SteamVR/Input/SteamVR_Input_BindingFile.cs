@@ -3,7 +3,6 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
 using System.Linq;
 using Valve.Newtonsoft.Json;
 using System.IO;
@@ -14,7 +13,10 @@ namespace Valve.VR
     public class SteamVR_Input_BindingFile
     {
         public string app_key;
-        public Dictionary<string, SteamVR_Input_BindingFile_ActionList> bindings = new Dictionary<string, SteamVR_Input_BindingFile_ActionList>();
+
+        public Dictionary<string, SteamVR_Input_BindingFile_ActionList> bindings =
+            new Dictionary<string, SteamVR_Input_BindingFile_ActionList>();
+
         public string controller_type;
         public string description;
         public string name;
@@ -40,7 +42,7 @@ namespace Valve.VR
         {
             if (obj is SteamVR_Input_BindingFile_Chord)
             {
-                SteamVR_Input_BindingFile_Chord chord = (SteamVR_Input_BindingFile_Chord)obj;
+                SteamVR_Input_BindingFile_Chord chord = (SteamVR_Input_BindingFile_Chord) obj;
 
                 if (this.output == chord.output && this.inputs != null && chord.inputs != null)
                 {
@@ -48,7 +50,8 @@ namespace Valve.VR
                     {
                         for (int thisIndex = 0; thisIndex < this.inputs.Count; thisIndex++)
                         {
-                            if (this.inputs[thisIndex] != null && chord.inputs[thisIndex] != null && this.inputs[thisIndex].Count == chord.inputs[thisIndex].Count)
+                            if (this.inputs[thisIndex] != null && chord.inputs[thisIndex] != null &&
+                                this.inputs[thisIndex].Count == chord.inputs[thisIndex].Count)
                             {
                                 for (int thisSubIndex = 0; thisSubIndex < this.inputs[thisIndex].Count; thisSubIndex++)
                                 {
@@ -57,6 +60,7 @@ namespace Valve.VR
                                         return false;
                                     }
                                 }
+
                                 return true;
                             }
                         }
@@ -85,7 +89,7 @@ namespace Valve.VR
         {
             if (obj is SteamVR_Input_BindingFile_Pose)
             {
-                SteamVR_Input_BindingFile_Pose pose = (SteamVR_Input_BindingFile_Pose)obj;
+                SteamVR_Input_BindingFile_Pose pose = (SteamVR_Input_BindingFile_Pose) obj;
                 if (pose.output == this.output && pose.path == this.path)
                     return true;
                 return false;
@@ -110,7 +114,7 @@ namespace Valve.VR
         {
             if (obj is SteamVR_Input_BindingFile_Haptic)
             {
-                SteamVR_Input_BindingFile_Haptic pose = (SteamVR_Input_BindingFile_Haptic)obj;
+                SteamVR_Input_BindingFile_Haptic pose = (SteamVR_Input_BindingFile_Haptic) obj;
                 if (pose.output == this.output && pose.path == this.path)
                     return true;
                 return false;
@@ -135,7 +139,7 @@ namespace Valve.VR
         {
             if (obj is SteamVR_Input_BindingFile_Skeleton)
             {
-                SteamVR_Input_BindingFile_Skeleton pose = (SteamVR_Input_BindingFile_Skeleton)obj;
+                SteamVR_Input_BindingFile_Skeleton pose = (SteamVR_Input_BindingFile_Skeleton) obj;
                 if (pose.output == this.output && pose.path == this.path)
                     return true;
                 return false;
@@ -155,7 +159,10 @@ namespace Valve.VR
     {
         public string path;
         public string mode;
-        public SteamVR_Input_BindingFile_Source_Input_StringDictionary parameters = new SteamVR_Input_BindingFile_Source_Input_StringDictionary();
+
+        public SteamVR_Input_BindingFile_Source_Input_StringDictionary parameters =
+            new SteamVR_Input_BindingFile_Source_Input_StringDictionary();
+
         public SteamVR_Input_BindingFile_Source_Input inputs = new SteamVR_Input_BindingFile_Source_Input();
 
         protected const string outputKeyName = "output";
@@ -180,7 +187,7 @@ namespace Valve.VR
         {
             if (obj is SteamVR_Input_BindingFile_Source)
             {
-                SteamVR_Input_BindingFile_Source pose = (SteamVR_Input_BindingFile_Source)obj;
+                SteamVR_Input_BindingFile_Source pose = (SteamVR_Input_BindingFile_Source) obj;
                 if (pose.mode == this.mode && pose.path == this.path)
                 {
                     bool parametersEqual = false;
@@ -220,13 +227,15 @@ namespace Valve.VR
     }
 
     [System.Serializable]
-    public class SteamVR_Input_BindingFile_Source_Input : Dictionary<string, SteamVR_Input_BindingFile_Source_Input_StringDictionary>
+    public class
+        SteamVR_Input_BindingFile_Source_Input : Dictionary<string,
+            SteamVR_Input_BindingFile_Source_Input_StringDictionary>
     {
         public override bool Equals(object obj)
         {
             if (obj is SteamVR_Input_BindingFile_Source_Input)
             {
-                SteamVR_Input_BindingFile_Source_Input sourceInput = (SteamVR_Input_BindingFile_Source_Input)obj;
+                SteamVR_Input_BindingFile_Source_Input sourceInput = (SteamVR_Input_BindingFile_Source_Input) obj;
 
                 if (this == sourceInput)
                     return true;
@@ -241,6 +250,7 @@ namespace Valve.VR
                             if (this[element.Key].Equals(sourceInput[element.Key]) == false)
                                 return false;
                         }
+
                         return true;
                     }
                 }
@@ -262,7 +272,8 @@ namespace Valve.VR
         {
             if (obj is SteamVR_Input_BindingFile_Source_Input_StringDictionary)
             {
-                SteamVR_Input_BindingFile_Source_Input_StringDictionary stringDictionary = (SteamVR_Input_BindingFile_Source_Input_StringDictionary)obj;
+                SteamVR_Input_BindingFile_Source_Input_StringDictionary stringDictionary =
+                    (SteamVR_Input_BindingFile_Source_Input_StringDictionary) obj;
 
                 if (this == stringDictionary)
                     return true;

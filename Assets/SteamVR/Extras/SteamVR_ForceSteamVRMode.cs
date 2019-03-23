@@ -16,7 +16,7 @@ namespace Valve.VR.Extras
         private IEnumerator Start()
         {
             yield return new WaitForSeconds(1f); // just here to show that you can wait a while.
-            
+
             SteamVR.Initialize(true);
 
             while (SteamVR.initializedState != SteamVR.InitializedStates.InitializeSuccess)

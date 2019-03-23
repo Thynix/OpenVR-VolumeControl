@@ -30,7 +30,8 @@ namespace Valve.VR
         public Config config;
         public string configPath;
 
-        [Tooltip("This will automatically activate the action set the specified pose belongs to. And deactivate it when this component is disabled.")]
+        [Tooltip(
+            "This will automatically activate the action set the specified pose belongs to. And deactivate it when this component is disabled.")]
         public bool autoEnableDisableActionSet = true;
 
         public void ReadConfig()
@@ -84,7 +85,8 @@ namespace Valve.VR
 #endif
                     }
                 }
-                config = (Config)c; //unbox
+
+                config = (Config) c; //unbox
 
                 // Convert calibrated camera matrix settings.
                 if (readCamMatrix)
@@ -99,7 +101,9 @@ namespace Valve.VR
                     config.rz = angles.z;
                 }
             }
-            catch { }
+            catch
+            {
+            }
 
             // Clear target so AttachToCamera gets called to pick up any changes.
             target = null;
@@ -131,6 +135,7 @@ namespace Valve.VR
 
         protected SteamVR_ActionSet activatedActionSet;
         protected SteamVR_Input_Sources activatedInputSource;
+
         public void AttachToCamera(SteamVR_Camera steamVR_Camera)
         {
             Camera vrcam;
@@ -151,7 +156,6 @@ namespace Valve.VR
                 target = steamVR_Camera.head;
             }
 
-            
 
             var root = transform.parent;
             var origin = target.parent;
@@ -217,7 +221,8 @@ namespace Valve.VR
 
             var offset = cam.transform;
             var forward = new Vector3(offset.forward.x, 0.0f, offset.forward.z).normalized;
-            var targetPos = target.position + new Vector3(target.forward.x, 0.0f, target.forward.z).normalized * config.hmdOffset;
+            var targetPos = target.position +
+                            new Vector3(target.forward.x, 0.0f, target.forward.z).normalized * config.hmdOffset;
 
             var distance = -(new Plane(forward, targetPos)).GetDistanceToPoint(offset.position);
             return Mathf.Clamp(distance, config.near + 0.01f, config.far - 0.01f);
@@ -363,7 +368,9 @@ namespace Valve.VR
                 {
                     if (pose.poseAction.actionSet.IsActive(pose.inputSource) == false)
                     {
-                        activatedActionSet = pose.poseAction.actionSet; //automatically activate the actionset if it isn't active already. (will deactivate on component disable)
+                        activatedActionSet =
+                            pose.poseAction
+                                .actionSet; //automatically activate the actionset if it isn't active already. (will deactivate on component disable)
                         activatedInputSource = pose.inputSource;
                         pose.poseAction.actionSet.Activate(pose.inputSource);
                     }
@@ -393,6 +400,7 @@ namespace Valve.VR
                     if (cam != null)
                         cam.rect = cameraRects[i];
                 }
+
                 cameras = null;
                 cameraRects = null;
             }

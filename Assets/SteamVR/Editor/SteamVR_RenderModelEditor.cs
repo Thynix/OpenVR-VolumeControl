@@ -67,7 +67,7 @@ namespace Valve.VR
                         if (requiredSize == 0)
                             continue;
 
-                        buffer.EnsureCapacity((int)requiredSize);
+                        buffer.EnsureCapacity((int) requiredSize);
                         renderModels.GetRenderModelName(i, buffer, requiredSize);
                         results.Add(buffer.ToString());
                     }
@@ -93,6 +93,7 @@ namespace Valve.VR
                 renderModelIndex = selected;
                 modelOverride.stringValue = (selected > 0) ? renderModelNames[selected] : "";
             }
+
             GUILayout.EndHorizontal();
 
             EditorGUILayout.PropertyField(shader);

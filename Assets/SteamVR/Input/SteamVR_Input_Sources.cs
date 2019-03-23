@@ -13,41 +13,29 @@ namespace Valve.VR
         [Description("/unrestricted")] //todo: check to see if this gets exported: k_ulInvalidInputHandle 
         Any,
 
-        [Description("/user/hand/left")]
-        LeftHand,
+        [Description("/user/hand/left")] LeftHand,
 
-        [Description("/user/hand/right")]
-        RightHand,
+        [Description("/user/hand/right")] RightHand,
 
-        [Description("/user/foot/left")]
-        LeftFoot,
+        [Description("/user/foot/left")] LeftFoot,
 
-        [Description("/user/foot/right")]
-        RightFoot,
+        [Description("/user/foot/right")] RightFoot,
 
-        [Description("/user/shoulder/left")]
-        LeftShoulder,
+        [Description("/user/shoulder/left")] LeftShoulder,
 
-        [Description("/user/shoulder/right")]
-        RightShoulder,
+        [Description("/user/shoulder/right")] RightShoulder,
 
-        [Description("/user/waist")]
-        Waist,
+        [Description("/user/waist")] Waist,
 
-        [Description("/user/chest")]
-        Chest,
+        [Description("/user/chest")] Chest,
 
-        [Description("/user/head")]
-        Head,
+        [Description("/user/head")] Head,
 
-        [Description("/user/gamepad")]
-        Gamepad,
+        [Description("/user/gamepad")] Gamepad,
 
-        [Description("/user/camera")]
-        Camera,
+        [Description("/user/camera")] Camera,
 
-        [Description("/user/keyboard")]
-        Keyboard,
+        [Description("/user/keyboard")] Keyboard,
     }
 }
 

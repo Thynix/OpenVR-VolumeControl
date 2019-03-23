@@ -149,8 +149,10 @@ namespace Valve.VR
 
         public static Quaternion GetRotation(HmdMatrix34_t matrix)
         {
-            if ((matrix.m2 != 0 || matrix.m6 != 0 || matrix.m10 != 0) && (matrix.m1 != 0 || matrix.m5 != 0 || matrix.m9 != 0))
-                return Quaternion.LookRotation(new Vector3(-matrix.m2, -matrix.m6, matrix.m10), new Vector3(matrix.m1, matrix.m5, -matrix.m9));
+            if ((matrix.m2 != 0 || matrix.m6 != 0 || matrix.m10 != 0) &&
+                (matrix.m1 != 0 || matrix.m5 != 0 || matrix.m9 != 0))
+                return Quaternion.LookRotation(new Vector3(-matrix.m2, -matrix.m6, matrix.m10),
+                    new Vector3(matrix.m1, matrix.m5, -matrix.m9));
             else
                 return Quaternion.identity;
         }
@@ -301,9 +303,10 @@ namespace Valve.VR
             {
                 if (other is RigidTransform)
                 {
-                    RigidTransform t = (RigidTransform)other;
+                    RigidTransform t = (RigidTransform) other;
                     return pos == t.pos && rot == t.rot;
                 }
+
                 return false;
             }
 
@@ -397,7 +400,8 @@ namespace Valve.VR
             return result;
         }
 
-        public static void TakeStereoScreenshot(uint screenshotHandle, GameObject target, int cellSize, float ipd, ref string previewFilename, ref string VRFilename)
+        public static void TakeStereoScreenshot(uint screenshotHandle, GameObject target, int cellSize, float ipd,
+            ref string previewFilename, ref string VRFilename)
         {
             const int width = 4096;
             const int height = width / 2;
@@ -563,12 +567,14 @@ namespace Valve.VR
                             camera.Render();
 
                             RenderTexture.active = targetTexture;
-                            texture.ReadPixels(new Rect(0, 0, targetTexture.width, targetTexture.height), uTarget, vTarget + vTargetOffset);
+                            texture.ReadPixels(new Rect(0, 0, targetTexture.width, targetTexture.height), uTarget,
+                                vTarget + vTargetOffset);
                             RenderTexture.active = null;
                         }
 
                         // Update progress
-                        float progress = (float)(v * (uTotal * 2.0f) + u + i * uTotal) / (float)(vTotal * (uTotal * 2.0f));
+                        float progress = (float) (v * (uTotal * 2.0f) + u + i * uTotal) /
+                                         (float) (vTotal * (uTotal * 2.0f));
                         OpenVR.Screenshots.UpdateScreenshotProgress(screenshotHandle, progress);
                     }
                 }
@@ -623,6 +629,7 @@ namespace Valve.VR
         }
 
         private const string secretKey = "foobar";
+
         ///<summary>Bad because the secret key is here in plain text</summary>
         public static string GetBadMD5Hash(string usedString)
         {
@@ -630,9 +637,11 @@ namespace Valve.VR
 
             return GetBadMD5Hash(bytes);
         }
+
         public static string GetBadMD5Hash(byte[] bytes)
         {
-            System.Security.Cryptography.MD5CryptoServiceProvider md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+            System.Security.Cryptography.MD5CryptoServiceProvider md5 =
+                new System.Security.Cryptography.MD5CryptoServiceProvider();
             byte[] hash = md5.ComputeHash(bytes);
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -643,6 +652,7 @@ namespace Valve.VR
 
             return sb.ToString();
         }
+
         public static string GetBadMD5HashFromFile(string filePath)
         {
             if (File.Exists(filePath) == false)
@@ -676,18 +686,23 @@ namespace Valve.VR
         {
             return (float.IsNaN(vector.x) == false && float.IsNaN(vector.y) == false && float.IsNaN(vector.z) == false);
         }
+
         public static bool IsValid(Quaternion rotation)
         {
-            return (float.IsNaN(rotation.x) == false && float.IsNaN(rotation.y) == false && float.IsNaN(rotation.z) == false && float.IsNaN(rotation.w) == false) &&
-                (rotation.x != 0 || rotation.y != 0 || rotation.z != 0 || rotation.w != 0);
+            return (float.IsNaN(rotation.x) == false && float.IsNaN(rotation.y) == false &&
+                    float.IsNaN(rotation.z) == false && float.IsNaN(rotation.w) == false) &&
+                   (rotation.x != 0 || rotation.y != 0 || rotation.z != 0 || rotation.w != 0);
         }
 
         private static Dictionary<int, GameObject> velocityCache = new Dictionary<int, GameObject>();
+
         public static void DrawVelocity(int key, Vector3 position, Vector3 velocity, float destroyAfterSeconds = 5f)
         {
             DrawVelocity(key, position, velocity, Color.green, destroyAfterSeconds);
         }
-        public static void DrawVelocity(int key, Vector3 position, Vector3 velocity, Color color, float destroyAfterSeconds = 5f)
+
+        public static void DrawVelocity(int key, Vector3 position, Vector3 velocity, Color color,
+            float destroyAfterSeconds = 5f)
         {
             if (velocityCache.ContainsKey(key) == false || velocityCache[key] == null)
             {
@@ -711,6 +726,7 @@ namespace Valve.VR
                     arrow.transform.localScale = Vector3.one;
                     arrow.transform.localPosition = Vector3.zero;
                 }
+
                 arrow.transform.localRotation = Quaternion.identity;
 
                 GameObject.DestroyImmediate(arrow.GetComponent<Collider>());
@@ -743,6 +759,7 @@ namespace Valve.VR
                     arrow.localScale = Vector3.one;
                     arrow.localPosition = Vector3.zero;
                 }
+
                 arrow.localRotation = Quaternion.identity;
 
                 GameObject.Destroy(center, destroyAfterSeconds);

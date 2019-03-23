@@ -58,6 +58,7 @@ namespace Valve.VR
         }
 
         private bool cleared = false;
+
         public void Clear()
         {
             if (cleared == true)
@@ -83,7 +84,6 @@ namespace Valve.VR
     {
         public SteamVR_HistoryBuffer(int size) : base(size)
         {
-
         }
 
         public void Update(Vector3 position, Quaternion rotation, Vector3 velocity, Vector3 angularVelocity)
@@ -166,7 +166,8 @@ namespace Valve.VR
             return topFrame;
         }
 
-        public void GetAverageVelocities(out Vector3 velocity, out Vector3 angularVelocity, int forFrames, int startFrame = -1)
+        public void GetAverageVelocities(out Vector3 velocity, out Vector3 angularVelocity, int forFrames,
+            int startFrame = -1)
         {
             velocity = Vector3.zero;
             angularVelocity = Vector3.zero;

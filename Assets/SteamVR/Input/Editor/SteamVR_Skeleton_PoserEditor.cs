@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using UnityEditor;
 using UnityEngine;
 
 namespace Valve.VR
 {
-
     [CustomEditor(typeof(SteamVR_Skeleton_Poser))]
     public class SteamVR_Skeleton_PoserEditor : Editor
     {
@@ -33,7 +31,6 @@ namespace Valve.VR
         private SerializedProperty blendEditorExpanded;
 
         private SerializedProperty poserScale;
-
 
 
         private SerializedProperty blendingBehaviourArray;
@@ -72,22 +69,25 @@ namespace Valve.VR
             blendingBehaviourArray = serializedObject.FindProperty("blendingBehaviours");
 
 
-            poser = (SteamVR_Skeleton_Poser)target;
+            poser = (SteamVR_Skeleton_Poser) target;
         }
 
         protected void LoadDefaultPreviewHands()
         {
             if (previewLeftHandPrefab.objectReferenceValue == null)
             {
-                string[] defaultLeftPaths = AssetDatabase.FindAssets(string.Format("t:Prefab {0}", leftDefaultAssetName));
+                string[] defaultLeftPaths =
+                    AssetDatabase.FindAssets(string.Format("t:Prefab {0}", leftDefaultAssetName));
                 if (defaultLeftPaths != null && defaultLeftPaths.Length > 0)
                 {
                     string defaultLeftGUID = defaultLeftPaths[0];
                     string defaultLeftPath = AssetDatabase.GUIDToAssetPath(defaultLeftGUID);
-                    previewLeftHandPrefab.objectReferenceValue = AssetDatabase.LoadAssetAtPath<GameObject>(defaultLeftPath);
+                    previewLeftHandPrefab.objectReferenceValue =
+                        AssetDatabase.LoadAssetAtPath<GameObject>(defaultLeftPath);
 
                     if (previewLeftHandPrefab.objectReferenceValue == null)
-                        Debug.LogError("[SteamVR] Could not load prefab: " + leftDefaultAssetName + ". Found path: " + defaultLeftPath);
+                        Debug.LogError("[SteamVR] Could not load prefab: " + leftDefaultAssetName + ". Found path: " +
+                                       defaultLeftPath);
                 }
                 else
                     Debug.LogError("[SteamVR] Could not load prefab: " + leftDefaultAssetName);
@@ -95,23 +95,28 @@ namespace Valve.VR
 
             if (previewRightHandPrefab.objectReferenceValue == null)
             {
-                string[] defaultRightPaths = AssetDatabase.FindAssets(string.Format("t:Prefab {0}", rightDefaultAssetName));
+                string[] defaultRightPaths =
+                    AssetDatabase.FindAssets(string.Format("t:Prefab {0}", rightDefaultAssetName));
                 if (defaultRightPaths != null && defaultRightPaths.Length > 0)
                 {
                     string defaultRightGUID = defaultRightPaths[0];
                     string defaultRightPath = AssetDatabase.GUIDToAssetPath(defaultRightGUID);
 
-                    previewRightHandPrefab.objectReferenceValue = AssetDatabase.LoadAssetAtPath<GameObject>(defaultRightPath);
+                    previewRightHandPrefab.objectReferenceValue =
+                        AssetDatabase.LoadAssetAtPath<GameObject>(defaultRightPath);
 
                     if (previewLeftHandPrefab.objectReferenceValue == null)
-                        Debug.LogError("[SteamVR] Could not load prefab: " + rightDefaultAssetName + ". Found path: " + defaultRightPath);
+                        Debug.LogError("[SteamVR] Could not load prefab: " + rightDefaultAssetName + ". Found path: " +
+                                       defaultRightPath);
                 }
                 else
                     Debug.LogError("[SteamVR] Could not load prefab: " + rightDefaultAssetName);
             }
         }
 
-        protected void UpdatePreviewHand(SerializedProperty instanceProperty, SerializedProperty showPreviewProperty, SerializedProperty prefabProperty, SteamVR_Skeleton_Pose_Hand handData, SteamVR_Skeleton_Pose sourcePose, bool forceUpdate)
+        protected void UpdatePreviewHand(SerializedProperty instanceProperty, SerializedProperty showPreviewProperty,
+            SerializedProperty prefabProperty, SteamVR_Skeleton_Pose_Hand handData, SteamVR_Skeleton_Pose sourcePose,
+            bool forceUpdate)
         {
             GameObject preview = instanceProperty.objectReferenceValue as GameObject;
             //EditorGUILayout.PropertyField(showPreviewProperty);
@@ -124,7 +129,7 @@ namespace Valve.VR
 
                 if (preview == null)
                 {
-                    preview = GameObject.Instantiate<GameObject>((GameObject)prefabProperty.objectReferenceValue);
+                    preview = GameObject.Instantiate<GameObject>((GameObject) prefabProperty.objectReferenceValue);
                     preview.transform.localScale = Vector3.one * poserScale.floatValue;
                     preview.transform.parent = poser.transform;
                     preview.transform.localPosition = Vector3.zero;
@@ -139,7 +144,8 @@ namespace Valve.VR
                     {
                         if (handData.bonePositions == null || handData.bonePositions.Length == 0)
                         {
-                            SteamVR_Skeleton_Pose poseResource = (SteamVR_Skeleton_Pose)Resources.Load("ReferencePose_OpenHand");
+                            SteamVR_Skeleton_Pose poseResource =
+                                (SteamVR_Skeleton_Pose) Resources.Load("ReferencePose_OpenHand");
                             DeepCopyPose(poseResource, sourcePose);
                             EditorUtility.SetDirty(sourcePose);
                         }
@@ -161,6 +167,7 @@ namespace Valve.VR
                             bone.localRotation = handData.boneRotations[boneIndex];
                         }
                     }
+
                     SceneView.RepaintAll();
                     instanceProperty.objectReferenceValue = preview;
                 }
@@ -211,7 +218,8 @@ namespace Valve.VR
             EditorUtility.SetDirty(activePose);
         }
 
-        protected void DrawHand(bool showHand, SteamVR_Skeleton_Pose_Hand handData, SteamVR_Skeleton_Pose_Hand otherData, bool getFromOpposite)
+        protected void DrawHand(bool showHand, SteamVR_Skeleton_Pose_Hand handData,
+            SteamVR_Skeleton_Pose_Hand otherData, bool getFromOpposite)
         {
             SteamVR_Behaviour_Skeleton thisSkeleton;
             SteamVR_Behaviour_Skeleton oppositeSkeleton;
@@ -236,17 +244,21 @@ namespace Valve.VR
 
             if (showHand)
             {
-
                 if (getFromOpposite)
                 {
-                    bool confirm = EditorUtility.DisplayDialog("SteamVR", string.Format("This will overwrite your current {0} skeleton data. (with data from the {1} skeleton)", thisSourceString, oppositeSourceString), "Overwrite", "Cancel");
+                    bool confirm = EditorUtility.DisplayDialog("SteamVR",
+                        string.Format(
+                            "This will overwrite your current {0} skeleton data. (with data from the {1} skeleton)",
+                            thisSourceString, oppositeSourceString), "Overwrite", "Cancel");
                     if (confirm)
                     {
-                        Vector3 reflectedPosition = new Vector3(-oppositeSkeleton.transform.localPosition.x, oppositeSkeleton.transform.localPosition.y, oppositeSkeleton.transform.localPosition.z);
+                        Vector3 reflectedPosition = new Vector3(-oppositeSkeleton.transform.localPosition.x,
+                            oppositeSkeleton.transform.localPosition.y, oppositeSkeleton.transform.localPosition.z);
                         thisSkeleton.transform.localPosition = reflectedPosition;
 
                         Quaternion oppositeRotation = oppositeSkeleton.transform.localRotation;
-                        Quaternion reflectedRotation = new Quaternion(-oppositeRotation.x, oppositeRotation.y, oppositeRotation.z, -oppositeRotation.w);
+                        Quaternion reflectedRotation = new Quaternion(-oppositeRotation.x, oppositeRotation.y,
+                            oppositeRotation.z, -oppositeRotation.w);
                         thisSkeleton.transform.localRotation = reflectedRotation;
 
 
@@ -257,7 +269,6 @@ namespace Valve.VR
 
                             boneThis.localPosition = boneOpposite.localPosition;
                             boneThis.localRotation = boneOpposite.localRotation;
-
                         }
 
                         handData.thumbFingerMovementType = otherData.thumbFingerMovementType;
@@ -269,20 +280,29 @@ namespace Valve.VR
                         EditorUtility.SetDirty(poser.skeletonMainPose);
                     }
                 }
-
             }
 
             EditorGUIUtility.labelWidth = 120;
-            SteamVR_Skeleton_FingerExtensionTypes newThumb = (SteamVR_Skeleton_FingerExtensionTypes)EditorGUILayout.EnumPopup("Thumb movement", handData.thumbFingerMovementType);
-            SteamVR_Skeleton_FingerExtensionTypes newIndex = (SteamVR_Skeleton_FingerExtensionTypes)EditorGUILayout.EnumPopup("Index movement", handData.indexFingerMovementType);
-            SteamVR_Skeleton_FingerExtensionTypes newMiddle = (SteamVR_Skeleton_FingerExtensionTypes)EditorGUILayout.EnumPopup("Middle movement", handData.middleFingerMovementType);
-            SteamVR_Skeleton_FingerExtensionTypes newRing = (SteamVR_Skeleton_FingerExtensionTypes)EditorGUILayout.EnumPopup("Ring movement", handData.ringFingerMovementType);
-            SteamVR_Skeleton_FingerExtensionTypes newPinky = (SteamVR_Skeleton_FingerExtensionTypes)EditorGUILayout.EnumPopup("Pinky movement", handData.pinkyFingerMovementType);
+            SteamVR_Skeleton_FingerExtensionTypes newThumb =
+                (SteamVR_Skeleton_FingerExtensionTypes) EditorGUILayout.EnumPopup("Thumb movement",
+                    handData.thumbFingerMovementType);
+            SteamVR_Skeleton_FingerExtensionTypes newIndex =
+                (SteamVR_Skeleton_FingerExtensionTypes) EditorGUILayout.EnumPopup("Index movement",
+                    handData.indexFingerMovementType);
+            SteamVR_Skeleton_FingerExtensionTypes newMiddle =
+                (SteamVR_Skeleton_FingerExtensionTypes) EditorGUILayout.EnumPopup("Middle movement",
+                    handData.middleFingerMovementType);
+            SteamVR_Skeleton_FingerExtensionTypes newRing =
+                (SteamVR_Skeleton_FingerExtensionTypes) EditorGUILayout.EnumPopup("Ring movement",
+                    handData.ringFingerMovementType);
+            SteamVR_Skeleton_FingerExtensionTypes newPinky =
+                (SteamVR_Skeleton_FingerExtensionTypes) EditorGUILayout.EnumPopup("Pinky movement",
+                    handData.pinkyFingerMovementType);
             EditorGUIUtility.labelWidth = 0;
 
             if (newThumb != handData.thumbFingerMovementType || newIndex != handData.indexFingerMovementType ||
-                    newMiddle != handData.middleFingerMovementType || newRing != handData.ringFingerMovementType ||
-                    newPinky != handData.pinkyFingerMovementType)
+                newMiddle != handData.middleFingerMovementType || newRing != handData.ringFingerMovementType ||
+                newPinky != handData.pinkyFingerMovementType)
             {
                 /*if ((int)newThumb >= 2 || (int)newIndex >= 2 || (int)newMiddle >= 2 || (int)newRing >= 2 || (int)newPinky >= 2)
                 {
@@ -315,9 +335,9 @@ namespace Valve.VR
                 rightSkeleton = rightInstance.GetComponent<SteamVR_Behaviour_Skeleton>();
 
 
-
             //only allow saving if a hand is opened for editing
-            EditorGUI.BeginDisabledGroup(showRightPreviewProperty.boolValue == false && showLeftPreviewProperty.boolValue == false);
+            EditorGUI.BeginDisabledGroup(showRightPreviewProperty.boolValue == false &&
+                                         showLeftPreviewProperty.boolValue == false);
             GUI.color = new Color(0.9f, 1.0f, 0.9f);
             // save both hands at once, or whichever are being edited
             bool save = GUILayout.Button(string.Format("Save Pose"));
@@ -328,12 +348,14 @@ namespace Valve.VR
                 if (showLeftPreviewProperty.boolValue)
                     SaveHandData(activePose.leftHand, leftSkeleton);
             }
+
             GUI.color = Color.white;
             EditorGUI.EndDisabledGroup();
 
             //MIRRORING
             //only allow mirroring if both hands are opened for editing
-            EditorGUI.BeginDisabledGroup(showRightPreviewProperty.boolValue == false || showLeftPreviewProperty.boolValue == false);
+            EditorGUI.BeginDisabledGroup(showRightPreviewProperty.boolValue == false ||
+                                         showLeftPreviewProperty.boolValue == false);
 
             EditorGUILayout.Space();
 
@@ -350,14 +372,17 @@ namespace Valve.VR
 
             GUILayout.Label("Reference Pose:");
             EditorGUILayout.Space();
-            forceToReferencePose = (EVRSkeletalReferencePose)EditorGUILayout.EnumPopup(forceToReferencePose);
+            forceToReferencePose = (EVRSkeletalReferencePose) EditorGUILayout.EnumPopup(forceToReferencePose);
             GUI.color = new Color(1.0f, 0.73f, 0.7f);
             bool forcePose = GUILayout.Button("RESET TO REFERENCE POSE");
             GUI.color = Color.white;
 
             if (forcePose)
             {
-                bool confirm = EditorUtility.DisplayDialog("SteamVR", string.Format("This will overwrite your current skeleton data. (with data from the {0} reference pose)", forceToReferencePose.ToString()), "Overwrite", "Cancel");
+                bool confirm = EditorUtility.DisplayDialog("SteamVR",
+                    string.Format(
+                        "This will overwrite your current skeleton data. (with data from the {0} reference pose)",
+                        forceToReferencePose.ToString()), "Overwrite", "Cancel");
                 if (confirm)
                 {
                     if (forceToReferencePose == EVRSkeletalReferencePose.GripLimit)
@@ -372,34 +397,36 @@ namespace Valve.VR
                     {
                         SteamVR_Skeleton_Pose poseResource = null;
                         if (forceToReferencePose == EVRSkeletalReferencePose.OpenHand)
-                            poseResource = (SteamVR_Skeleton_Pose)Resources.Load("ReferencePose_OpenHand");
+                            poseResource = (SteamVR_Skeleton_Pose) Resources.Load("ReferencePose_OpenHand");
                         if (forceToReferencePose == EVRSkeletalReferencePose.Fist)
-                            poseResource = (SteamVR_Skeleton_Pose)Resources.Load("ReferencePose_Fist");
+                            poseResource = (SteamVR_Skeleton_Pose) Resources.Load("ReferencePose_Fist");
                         if (forceToReferencePose == EVRSkeletalReferencePose.BindPose)
-                            poseResource = (SteamVR_Skeleton_Pose)Resources.Load("ReferencePose_BindPose");
+                            poseResource = (SteamVR_Skeleton_Pose) Resources.Load("ReferencePose_BindPose");
 
                         DeepCopyPose(poseResource, activePose);
                     }
                 }
             }
-
-
         }
 
 
         void CopyPoseSelect()
         {
-            string selected = EditorUtility.OpenFilePanel("Open Skeleton Pose ScriptableObject", Application.dataPath, "asset");
+            string selected =
+                EditorUtility.OpenFilePanel("Open Skeleton Pose ScriptableObject", Application.dataPath, "asset");
             selected = selected.Replace(Application.dataPath, "Assets");
 
             if (selected == null) return;
 
-            SteamVR_Skeleton_Pose newPose = (SteamVR_Skeleton_Pose)AssetDatabase.LoadAssetAtPath(selected, typeof(SteamVR_Skeleton_Pose));
+            SteamVR_Skeleton_Pose newPose =
+                (SteamVR_Skeleton_Pose) AssetDatabase.LoadAssetAtPath(selected, typeof(SteamVR_Skeleton_Pose));
             if (newPose == null)
             {
-                EditorUtility.DisplayDialog("WARNING", "Asset could not be loaded. Is it not a SteamVR_Skeleton_Pose?", "ok");
+                EditorUtility.DisplayDialog("WARNING", "Asset could not be loaded. Is it not a SteamVR_Skeleton_Pose?",
+                    "ok");
                 return;
             }
+
             DeepCopyPose(newPose, activePose);
         }
 
@@ -425,8 +452,10 @@ namespace Valve.VR
             {
                 dest.rightHand.bonePositions[boneIndex] = source.rightHand.bonePositions[boneIndex];
                 dest.rightHand.boneRotations[boneIndex] = source.rightHand.boneRotations[boneIndex];
-                EditorUtility.DisplayProgressBar("Copying...", "Copying right hand pose", (float)boneIndex / (float)boneNum / 2f);
+                EditorUtility.DisplayProgressBar("Copying...", "Copying right hand pose",
+                    (float) boneIndex / (float) boneNum / 2f);
             }
+
             dest.rightHand.thumbFingerMovementType = source.rightHand.thumbFingerMovementType;
             dest.rightHand.indexFingerMovementType = source.rightHand.indexFingerMovementType;
             dest.rightHand.middleFingerMovementType = source.rightHand.middleFingerMovementType;
@@ -441,8 +470,10 @@ namespace Valve.VR
             {
                 dest.leftHand.bonePositions[boneIndex] = source.leftHand.bonePositions[boneIndex];
                 dest.leftHand.boneRotations[boneIndex] = source.leftHand.boneRotations[boneIndex];
-                EditorUtility.DisplayProgressBar("Copying...", "Copying left hand pose", (float)boneIndex / (float)boneNum / 2f);
+                EditorUtility.DisplayProgressBar("Copying...", "Copying left hand pose",
+                    (float) boneIndex / (float) boneNum / 2f);
             }
+
             dest.leftHand.thumbFingerMovementType = source.leftHand.thumbFingerMovementType;
             dest.leftHand.indexFingerMovementType = source.leftHand.indexFingerMovementType;
             dest.leftHand.middleFingerMovementType = source.leftHand.middleFingerMovementType;
@@ -463,8 +494,6 @@ namespace Valve.VR
 
         public override void OnInspectorGUI()
         {
-
-
             serializedObject.Update();
 
             DrawPoseEditorMenu();
@@ -520,10 +549,17 @@ namespace Valve.VR
                     {
                         if (i == 0)
                             // main pose special case
-                            poser.poseNames[i] = skeletonMainPoseProperty.objectReferenceValue == null ? "[not set]" : skeletonMainPoseProperty.objectReferenceValue.name + " (MAIN)";
+                            poser.poseNames[i] = skeletonMainPoseProperty.objectReferenceValue == null
+                                ? "[not set]"
+                                : skeletonMainPoseProperty.objectReferenceValue.name + " (MAIN)";
                         else
                             // additional poses from array
-                            poser.poseNames[i] = skeletonAdditionalPosesProperty.GetArrayElementAtIndex(i - 1).objectReferenceValue == null ? "[not set]" : skeletonAdditionalPosesProperty.GetArrayElementAtIndex(i - 1).objectReferenceValue.name;
+                            poser.poseNames[i] =
+                                skeletonAdditionalPosesProperty.GetArrayElementAtIndex(i - 1).objectReferenceValue ==
+                                null
+                                    ? "[not set]"
+                                    : skeletonAdditionalPosesProperty.GetArrayElementAtIndex(i - 1).objectReferenceValue
+                                        .name;
                     }
 
                     EditorGUILayout.BeginHorizontal();
@@ -539,15 +575,16 @@ namespace Valve.VR
                     }
 
 
-
-
                     EditorGUILayout.BeginVertical(GUILayout.MaxWidth(32));
                     if (GUILayout.Button("+", GUILayout.MaxWidth(32)))
                     {
-                        skeletonAdditionalPosesProperty.InsertArrayElementAtIndex(skeletonAdditionalPosesProperty.arraySize);
+                        skeletonAdditionalPosesProperty.InsertArrayElementAtIndex(skeletonAdditionalPosesProperty
+                            .arraySize);
                     }
+
                     //only allow deletion of additional poses
-                    EditorGUI.BeginDisabledGroup(skeletonAdditionalPosesProperty.arraySize == 0 || activePoseIndex == 0);
+                    EditorGUI.BeginDisabledGroup(skeletonAdditionalPosesProperty.arraySize == 0 ||
+                                                 activePoseIndex == 0);
                     if (GUILayout.Button("-", GUILayout.MaxWidth(32)) && skeletonAdditionalPosesProperty.arraySize > 0)
                     {
                         skeletonAdditionalPosesProperty.DeleteArrayElementAtIndex(activePoseIndex - 1);
@@ -584,13 +621,13 @@ namespace Valve.VR
                         if (activePoseIndex == 0)
                             activePoseProp = skeletonMainPoseProperty;
                         else
-                            activePoseProp = skeletonAdditionalPosesProperty.GetArrayElementAtIndex(activePoseIndex - 1);
-                        activePose = (SteamVR_Skeleton_Pose)activePoseProp.objectReferenceValue;
-
+                            activePoseProp =
+                                skeletonAdditionalPosesProperty.GetArrayElementAtIndex(activePoseIndex - 1);
+                        activePose = (SteamVR_Skeleton_Pose) activePoseProp.objectReferenceValue;
                     }
 
 
-                    activePose = (SteamVR_Skeleton_Pose)activePoseProp.objectReferenceValue;
+                    activePose = (SteamVR_Skeleton_Pose) activePoseProp.objectReferenceValue;
                     if (activePoseProp.objectReferenceValue == null)
                     {
                         if (previewLeftInstanceProperty.objectReferenceValue != null)
@@ -599,16 +636,20 @@ namespace Valve.VR
                             DestroyImmediate(previewRightInstanceProperty.objectReferenceValue);
 
                         EditorGUILayout.BeginHorizontal();
-                        activePoseProp.objectReferenceValue = EditorGUILayout.ObjectField(activePoseProp.objectReferenceValue, typeof(SteamVR_Skeleton_Pose), false);
+                        activePoseProp.objectReferenceValue =
+                            EditorGUILayout.ObjectField(activePoseProp.objectReferenceValue,
+                                typeof(SteamVR_Skeleton_Pose), false);
                         if (GUILayout.Button("Create")) createNew = true;
                         EditorGUILayout.EndHorizontal();
                         if (createNew)
                         {
-                            string fullPath = EditorUtility.SaveFilePanelInProject("Create New Skeleton Pose", "newPose", "asset", "Save file");
+                            string fullPath = EditorUtility.SaveFilePanelInProject("Create New Skeleton Pose",
+                                "newPose", "asset", "Save file");
 
                             if (string.IsNullOrEmpty(fullPath) == false)
                             {
-                                SteamVR_Skeleton_Pose newPose = ScriptableObject.CreateInstance<SteamVR_Skeleton_Pose>();
+                                SteamVR_Skeleton_Pose newPose =
+                                    ScriptableObject.CreateInstance<SteamVR_Skeleton_Pose>();
                                 AssetDatabase.CreateAsset(newPose, fullPath);
                                 AssetDatabase.SaveAssets();
 
@@ -619,26 +660,30 @@ namespace Valve.VR
                     }
                     else
                     {
-                        activePoseProp.objectReferenceValue = EditorGUILayout.ObjectField(activePoseProp.objectReferenceValue, typeof(SteamVR_Skeleton_Pose), false);
+                        activePoseProp.objectReferenceValue =
+                            EditorGUILayout.ObjectField(activePoseProp.objectReferenceValue,
+                                typeof(SteamVR_Skeleton_Pose), false);
 
                         DrawPoseControlButtons();
 
-                        UpdatePreviewHand(previewLeftInstanceProperty, showLeftPreviewProperty, previewLeftHandPrefab, activePose.leftHand, activePose, forceUpdateHands);
-                        UpdatePreviewHand(previewRightInstanceProperty, showRightPreviewProperty, previewRightHandPrefab, activePose.rightHand, activePose, forceUpdateHands);
+                        UpdatePreviewHand(previewLeftInstanceProperty, showLeftPreviewProperty, previewLeftHandPrefab,
+                            activePose.leftHand, activePose, forceUpdateHands);
+                        UpdatePreviewHand(previewRightInstanceProperty, showRightPreviewProperty,
+                            previewRightHandPrefab, activePose.rightHand, activePose, forceUpdateHands);
 
                         forceUpdateHands = false;
 
                         GUILayout.EndVertical();
 
 
-
-
                         GUILayout.Space(10);
 
                         if (handTexL == null)
-                            handTexL = (Texture)EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/HandLeftIcon.png");
+                            handTexL = (Texture) EditorGUIUtility.Load(
+                                "Assets/SteamVR/Input/Editor/Resources/Icons/HandLeftIcon.png");
                         if (handTexR == null)
-                            handTexR = (Texture)EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/HandRightIcon.png");
+                            handTexR = (Texture) EditorGUIUtility.Load(
+                                "Assets/SteamVR/Input/Editor/Resources/Icons/HandRightIcon.png");
 
 
                         //Left Hand
@@ -653,6 +698,7 @@ namespace Valve.VR
                             showLeftPreviewProperty.boolValue = !showLeftPreviewProperty.boolValue;
                             //forceUpdateHands = true;
                         }
+
                         GUI.color = Color.white;
 
                         EditorGUIUtility.labelWidth = 48;
@@ -666,11 +712,11 @@ namespace Valve.VR
 
                         DrawHand(showLeft, activePose.leftHand, activePose.rightHand, getLeftFromOpposite);
                         EditorGUILayout.EndVertical();
-                        EditorGUI.BeginDisabledGroup((showLeftPreviewProperty.boolValue && showRightPreviewProperty.boolValue) == false);
+                        EditorGUI.BeginDisabledGroup(
+                            (showLeftPreviewProperty.boolValue && showRightPreviewProperty.boolValue) == false);
                         getRightFromOpposite = GUILayout.Button("Copy Left pose to Right hand");
                         EditorGUI.EndDisabledGroup();
                         EditorGUILayout.EndVertical();
-
 
 
                         EditorGUILayout.BeginVertical();
@@ -687,6 +733,7 @@ namespace Valve.VR
                             showRightPreviewProperty.boolValue = !showRightPreviewProperty.boolValue;
                             //forceUpdateHands = true;
                         }
+
                         GUI.color = Color.white;
                         EditorGUILayout.EndHorizontal();
 
@@ -694,16 +741,11 @@ namespace Valve.VR
 
                         DrawHand(showRight, activePose.rightHand, activePose.leftHand, getRightFromOpposite);
                         EditorGUILayout.EndVertical();
-                        EditorGUI.BeginDisabledGroup((showLeftPreviewProperty.boolValue && showRightPreviewProperty.boolValue) == false);
+                        EditorGUI.BeginDisabledGroup(
+                            (showLeftPreviewProperty.boolValue && showRightPreviewProperty.boolValue) == false);
                         getLeftFromOpposite = GUILayout.Button("Copy Right pose to Left hand");
                         EditorGUI.EndDisabledGroup();
-
                     }
-
-
-
-
-
 
 
                     /*
@@ -789,12 +831,14 @@ namespace Valve.VR
         {
             if (handMaskTextures == null)
             {
-                handMaskTextures = new Texture[] { (Texture)EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/handmask_Palm.png"),
-                (Texture)EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/handmask_Thumb.png"),
-                (Texture)EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/handmask_Index.png"),
-                (Texture)EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/handmask_Middle.png"),
-                (Texture)EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/handmask_Ring.png"),
-                (Texture)EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/handmask_Pinky.png")
+                handMaskTextures = new Texture[]
+                {
+                    (Texture) EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/handmask_Palm.png"),
+                    (Texture) EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/handmask_Thumb.png"),
+                    (Texture) EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/handmask_Index.png"),
+                    (Texture) EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/handmask_Middle.png"),
+                    (Texture) EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/handmask_Ring.png"),
+                    (Texture) EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/handmask_Pinky.png")
                 };
             }
 
@@ -809,7 +853,6 @@ namespace Valve.VR
                 EditorGUILayout.Space();
                 for (int i = 0; i < blendingBehaviourArray.arraySize; i++)
                 {
-
                     SerializedProperty blender = blendingBehaviourArray.GetArrayElementAtIndex(i);
                     SerializedProperty blenderName = blender.FindPropertyRelative("name");
                     SerializedProperty blenderEnabled = blender.FindPropertyRelative("enabled");
@@ -818,7 +861,8 @@ namespace Valve.VR
                     SerializedProperty blenderType = blender.FindPropertyRelative("type");
                     SerializedProperty blenderUseMask = blender.FindPropertyRelative("useMask");
                     SerializedProperty blenderValue = blender.FindPropertyRelative("value");
-                    SerializedProperty blenderMask = blender.FindPropertyRelative("mask").FindPropertyRelative("values");
+                    SerializedProperty blenderMask =
+                        blender.FindPropertyRelative("mask").FindPropertyRelative("values");
 
                     SerializedProperty blenderPreview = blender.FindPropertyRelative("previewEnabled");
 
@@ -829,7 +873,8 @@ namespace Valve.VR
                     GUILayout.BeginVertical("box");
                     GUI.color = Color.white;
 
-                    blenderPreview.boolValue = IndentedFoldoutHeader(blenderPreview.boolValue, blenderName.stringValue, 1);
+                    blenderPreview.boolValue =
+                        IndentedFoldoutHeader(blenderPreview.boolValue, blenderName.stringValue, 1);
 
                     //SerializedProperty blenderValue = blender.FindProperty("value");
 
@@ -845,6 +890,7 @@ namespace Valve.VR
                     {
                         blendingBehaviourArray.MoveArrayElement(i, i - 1);
                     }
+
                     EditorGUI.EndDisabledGroup();
 
                     EditorGUI.BeginDisabledGroup(i == blendingBehaviourArray.arraySize - 1);
@@ -852,26 +898,27 @@ namespace Valve.VR
                     {
                         blendingBehaviourArray.MoveArrayElement(i, i + 1);
                     }
+
                     EditorGUI.EndDisabledGroup();
 
                     GUILayout.Space(6);
                     GUI.color = new Color(0.9f, 0.8f, 0.78f);
                     if (GUILayout.Button("Delete"))
                     {
-                        if (EditorUtility.DisplayDialog("", "Do you really want to delete this Blend Behaviour?", "Yes", "Cancel"))
+                        if (EditorUtility.DisplayDialog("", "Do you really want to delete this Blend Behaviour?", "Yes",
+                            "Cancel"))
                         {
                             blendingBehaviourArray.DeleteArrayElementAtIndex(i);
                             return;
                         }
                     }
+
                     GUI.color = Color.white;
                     EditorGUILayout.EndHorizontal();
 
                     if (blenderPreview.boolValue)
                     {
-
                         EditorGUILayout.PropertyField(blenderName);
-
 
 
                         EditorGUILayout.BeginHorizontal();
@@ -894,14 +941,14 @@ namespace Valve.VR
                         {
                             GUILayout.Space(10);
                             GUI.color = new Color(0, 0, 0, 0.3f);
-                            EditorGUILayout.LabelField("", GUI.skin.box, GUILayout.Height(20), GUILayout.ExpandWidth(true));
+                            EditorGUILayout.LabelField("", GUI.skin.box, GUILayout.Height(20),
+                                GUILayout.ExpandWidth(true));
                             GUI.color = Color.white;
                             Rect fillRect = GUILayoutUtility.GetLastRect();
                             EditorGUI.DrawRect(fillRectHorizontal(fillRect, blenderValue.floatValue), Color.green);
                         }
 
                         EditorGUILayout.EndVertical();
-
 
 
                         EditorGUILayout.BeginVertical(GUILayout.MaxWidth(100));
@@ -914,10 +961,10 @@ namespace Valve.VR
                         {
                             DrawMaskDisabled(blenderMask);
                         }
+
                         EditorGUILayout.EndVertical();
 
                         EditorGUILayout.EndHorizontal();
-
 
 
                         DrawDivider();
@@ -925,18 +972,23 @@ namespace Valve.VR
                         EditorGUIUtility.labelWidth = 0;
 
 
-                        if (blenderType.intValue == (int)SteamVR_Skeleton_Poser.PoseBlendingBehaviour.BlenderTypes.Manual)
+                        if (blenderType.intValue ==
+                            (int) SteamVR_Skeleton_Poser.PoseBlendingBehaviour.BlenderTypes.Manual)
                         {
                             EditorGUILayout.Slider(blenderValue, 0, 1);
                         }
-                        if (blenderType.intValue == (int)SteamVR_Skeleton_Poser.PoseBlendingBehaviour.BlenderTypes.AnalogAction)
+
+                        if (blenderType.intValue ==
+                            (int) SteamVR_Skeleton_Poser.PoseBlendingBehaviour.BlenderTypes.AnalogAction)
                         {
                             SerializedProperty blenderAction = blender.FindPropertyRelative("action_single");
                             SerializedProperty blenderSmooth = blender.FindPropertyRelative("smoothingSpeed");
                             EditorGUILayout.PropertyField(blenderAction);
                             EditorGUILayout.PropertyField(blenderSmooth);
                         }
-                        if (blenderType.intValue == (int)SteamVR_Skeleton_Poser.PoseBlendingBehaviour.BlenderTypes.BooleanAction)
+
+                        if (blenderType.intValue ==
+                            (int) SteamVR_Skeleton_Poser.PoseBlendingBehaviour.BlenderTypes.BooleanAction)
                         {
                             SerializedProperty blenderAction = blender.FindPropertyRelative("action_bool");
                             SerializedProperty blenderSmooth = blender.FindPropertyRelative("smoothingSpeed");
@@ -946,7 +998,6 @@ namespace Valve.VR
                     }
 
                     GUILayout.EndVertical();
-
                 }
 
 
@@ -955,20 +1006,22 @@ namespace Valve.VR
                 {
                     int i = blendingBehaviourArray.arraySize;
                     blendingBehaviourArray.InsertArrayElementAtIndex(i);
-                    blendingBehaviourArray.GetArrayElementAtIndex(i).FindPropertyRelative("name").stringValue = "New Behaviour";
+                    blendingBehaviourArray.GetArrayElementAtIndex(i).FindPropertyRelative("name").stringValue =
+                        "New Behaviour";
                     blendingBehaviourArray.GetArrayElementAtIndex(i).FindPropertyRelative("enabled").boolValue = true;
                     blendingBehaviourArray.GetArrayElementAtIndex(i).FindPropertyRelative("influence").floatValue = 1;
-                    blendingBehaviourArray.GetArrayElementAtIndex(i).FindPropertyRelative("previewEnabled").boolValue = true;
+                    blendingBehaviourArray.GetArrayElementAtIndex(i).FindPropertyRelative("previewEnabled").boolValue =
+                        true;
                     serializedObject.ApplyModifiedProperties();
                     poser.blendingBehaviours[i].mask.Reset();
                 }
+
                 GUILayout.FlexibleSpace();
 
                 EditorGUILayout.EndHorizontal();
-
             }
-            GUILayout.EndVertical();
 
+            GUILayout.EndVertical();
         }
 
         Rect fillRectHorizontal(Rect r, float f)
@@ -984,17 +1037,22 @@ namespace Valve.VR
         void DrawBlenderLogo(SerializedProperty blenderType)
         {
             Texture icon = null;
-            if (blenderType.intValue == (int)SteamVR_Skeleton_Poser.PoseBlendingBehaviour.BlenderTypes.Manual)
+            if (blenderType.intValue == (int) SteamVR_Skeleton_Poser.PoseBlendingBehaviour.BlenderTypes.Manual)
             {
-                icon = (Texture)EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/BlenderBehaviour_Manual_Icon.png");
+                icon = (Texture) EditorGUIUtility.Load(
+                    "Assets/SteamVR/Input/Editor/Resources/Icons/BlenderBehaviour_Manual_Icon.png");
             }
-            if (blenderType.intValue == (int)SteamVR_Skeleton_Poser.PoseBlendingBehaviour.BlenderTypes.AnalogAction)
+
+            if (blenderType.intValue == (int) SteamVR_Skeleton_Poser.PoseBlendingBehaviour.BlenderTypes.AnalogAction)
             {
-                icon = (Texture)EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/BlenderBehaviour_Analog_Icon.png");
+                icon = (Texture) EditorGUIUtility.Load(
+                    "Assets/SteamVR/Input/Editor/Resources/Icons/BlenderBehaviour_Analog_Icon.png");
             }
-            if (blenderType.intValue == (int)SteamVR_Skeleton_Poser.PoseBlendingBehaviour.BlenderTypes.BooleanAction)
+
+            if (blenderType.intValue == (int) SteamVR_Skeleton_Poser.PoseBlendingBehaviour.BlenderTypes.BooleanAction)
             {
-                icon = (Texture)EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/BlenderBehaviour_Boolean_Icon.png");
+                icon = (Texture) EditorGUIUtility.Load(
+                    "Assets/SteamVR/Input/Editor/Resources/Icons/BlenderBehaviour_Boolean_Icon.png");
             }
 
             GUILayout.Label(icon, GUILayout.MaxHeight(32), GUILayout.MaxWidth(32));
@@ -1006,7 +1064,7 @@ namespace Valve.VR
 
         void DrawMaskDisabled(SerializedProperty mask)
         {
-            Texture m = (Texture)EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/handmask.png");
+            Texture m = (Texture) EditorGUIUtility.Load("Assets/SteamVR/Input/Editor/Resources/Icons/handmask.png");
             GUI.color = maskColorUnused;
             GUILayout.Label(m, GUILayout.MaxHeight(100), GUILayout.MaxWidth(100));
             GUI.color = Color.white;
@@ -1025,6 +1083,7 @@ namespace Valve.VR
                 {
                     mask.GetArrayElementAtIndex(i).boolValue = !mask.GetArrayElementAtIndex(i).boolValue;
                 }
+
                 GUI.color = Color.white;
                 //maskVal
             }
@@ -1044,6 +1103,7 @@ namespace Valve.VR
                 outRect.yMin = Mathf.Lerp(source.yMin, source.yMax, 0.5f); // top edge
                 outRect.yMax = Mathf.Lerp(source.yMin, source.yMax, 1.0f); // bottom edge
             }
+
             if (i == 1)
             {
                 outRect.xMin = Mathf.Lerp(source.xMin, source.xMax, 0.0f); // left edge
@@ -1052,6 +1112,7 @@ namespace Valve.VR
                 outRect.yMin = Mathf.Lerp(source.yMin, source.yMax, 0.5f); // top edge
                 outRect.yMax = Mathf.Lerp(source.yMin, source.yMax, 1.0f); // bottom edge
             }
+
             if (i == 2)
             {
                 outRect.xMin = Mathf.Lerp(source.xMin, source.xMax, 0.3f); // left edge
@@ -1060,6 +1121,7 @@ namespace Valve.VR
                 outRect.yMin = Mathf.Lerp(source.yMin, source.yMax, 0.0f); // top edge
                 outRect.yMax = Mathf.Lerp(source.yMin, source.yMax, 0.5f); // bottom edge
             }
+
             if (i == 3)
             {
                 outRect.xMin = Mathf.Lerp(source.xMin, source.xMax, 0.425f); // left edge
@@ -1068,6 +1130,7 @@ namespace Valve.VR
                 outRect.yMin = Mathf.Lerp(source.yMin, source.yMax, 0.0f); // top edge
                 outRect.yMax = Mathf.Lerp(source.yMin, source.yMax, 0.5f); // bottom edge
             }
+
             if (i == 4)
             {
                 outRect.xMin = Mathf.Lerp(source.xMin, source.xMax, 0.55f); // left edge
@@ -1076,6 +1139,7 @@ namespace Valve.VR
                 outRect.yMin = Mathf.Lerp(source.yMin, source.yMax, 0.0f); // top edge
                 outRect.yMax = Mathf.Lerp(source.yMin, source.yMax, 0.5f); // bottom edge
             }
+
             if (i == 5)
             {
                 outRect.xMin = Mathf.Lerp(source.xMin, source.xMax, 0.675f); // left edge
@@ -1084,9 +1148,9 @@ namespace Valve.VR
                 outRect.yMin = Mathf.Lerp(source.yMin, source.yMax, 0.0f); // top edge
                 outRect.yMax = Mathf.Lerp(source.yMin, source.yMax, 0.5f); // bottom edge
             }
+
             return outRect;
         }
-
 
 
         void DrawDivider()

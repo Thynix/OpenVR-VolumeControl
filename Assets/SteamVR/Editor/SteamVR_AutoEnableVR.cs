@@ -53,10 +53,12 @@ namespace Valve.VR
                 {
                     UnityEditor.PlayerSettings.virtualRealitySupported = true;
                     enabledVR = true;
-                    Debug.Log("<b>[SteamVR Setup]</b> Enabled virtual reality support in Player Settings. (you can disable this by unchecking Assets/SteamVR/SteamVR_Settings.autoEnableVR)");
+                    Debug.Log(
+                        "<b>[SteamVR Setup]</b> Enabled virtual reality support in Player Settings. (you can disable this by unchecking Assets/SteamVR/SteamVR_Settings.autoEnableVR)");
                 }
 
-                UnityEditor.BuildTargetGroup currentTarget = UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup;
+                UnityEditor.BuildTargetGroup currentTarget =
+                    UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup;
 
 #if (UNITY_5_4 || UNITY_5_3 || UNITY_5_2 || UNITY_5_1 || UNITY_5_0)
                 string[] devices = UnityEditorInternal.VR.VREditor.GetVREnabledDevices(currentTarget);
@@ -64,18 +66,21 @@ namespace Valve.VR
                 string[] devices = UnityEditorInternal.VR.VREditor.GetVREnabledDevicesOnTargetGroup(currentTarget);
 #endif
 
-                bool hasOpenVR = devices.Any(device => string.Equals(device, openVRString, System.StringComparison.CurrentCultureIgnoreCase));
+                bool hasOpenVR = devices.Any(device =>
+                    string.Equals(device, openVRString, System.StringComparison.CurrentCultureIgnoreCase));
 
                 if (hasOpenVR == false || enabledVR)
                 {
                     string[] newDevices;
                     if (enabledVR && hasOpenVR == false)
                     {
-                        newDevices = new string[] { openVRString }; //only list openvr if we enabled it
+                        newDevices = new string[] {openVRString}; //only list openvr if we enabled it
                     }
                     else
                     {
-                        List<string> devicesList = new List<string>(devices); //list openvr as the first option if it wasn't in the list.
+                        List<string>
+                            devicesList =
+                                new List<string>(devices); //list openvr as the first option if it wasn't in the list.
                         if (hasOpenVR)
                             devicesList.Remove(openVRString);
 
@@ -105,7 +110,8 @@ namespace Valve.VR
                     case PackageStates.WaitingForList:
                         if (listRequest.IsCompleted)
                         {
-                            if (listRequest.Error != null || listRequest.Status == UnityEditor.PackageManager.StatusCode.Failure)
+                            if (listRequest.Error != null ||
+                                listRequest.Status == UnityEditor.PackageManager.StatusCode.Failure)
                             {
                                 packageState = PackageStates.Failed;
                                 break;
@@ -130,12 +136,14 @@ namespace Valve.VR
                                 packageState = PackageStates.Installed; //already installed
                             }
                         }
+
                         break;
 
                     case PackageStates.WaitingForAdd:
                         if (addRequest.IsCompleted)
                         {
-                            if (addRequest.Error != null || addRequest.Status == UnityEditor.PackageManager.StatusCode.Failure)
+                            if (addRequest.Error != null ||
+                                addRequest.Status == UnityEditor.PackageManager.StatusCode.Failure)
                             {
                                 packageState = PackageStates.Failed;
                                 break;
@@ -158,18 +166,21 @@ namespace Valve.VR
                             else
                                 dialogText = "Retrying OpenVR install from Unity Package Manager...";
 
-                            bool cancel = UnityEditor.EditorUtility.DisplayCancelableProgressBar("SteamVR", dialogText, (float)addingPackageTimeTotal.Elapsed.TotalSeconds / estimatedTimeToInstall);
+                            bool cancel = UnityEditor.EditorUtility.DisplayCancelableProgressBar("SteamVR", dialogText,
+                                (float) addingPackageTimeTotal.Elapsed.TotalSeconds / estimatedTimeToInstall);
                             if (cancel)
                                 packageState = PackageStates.Failed;
 
                             if (addingPackageTime.Elapsed.TotalSeconds > 10)
                             {
-                                Debug.Log("<b>[SteamVR Setup]</b> Waiting for package manager to install OpenVR package...");
+                                Debug.Log(
+                                    "<b>[SteamVR Setup]</b> Waiting for package manager to install OpenVR package...");
                                 addingPackageTime.Stop();
                                 addingPackageTime.Reset();
                                 addingPackageTime.Start();
                             }
                         }
+
                         break;
 
                     case PackageStates.WaitingForAddConfirm:
@@ -205,6 +216,7 @@ namespace Valve.VR
                                 Debug.Log("<b>[SteamVR Setup]</b> Successfully installed OpenVR package.");
                             }
                         }
+
                         break;
                 }
 
@@ -217,7 +229,8 @@ namespace Valve.VR
 
                     if (packageState == PackageStates.Failed)
                     {
-                        string failtext = "The Unity Package Manager failed to automatically install the OpenVR package. Please open the Package Manager Window and try to install it manually.";
+                        string failtext =
+                            "The Unity Package Manager failed to automatically install the OpenVR package. Please open the Package Manager Window and try to install it manually.";
                         UnityEditor.EditorUtility.DisplayDialog("SteamVR", failtext, "Ok");
                         Debug.Log("<b>[SteamVR Setup]</b> " + failtext);
                     }

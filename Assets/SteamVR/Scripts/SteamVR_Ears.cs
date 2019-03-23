@@ -36,7 +36,8 @@ namespace Valve.VR
                 {
                     usingSpeakers = true;
 
-                    var yawOffset = settings.GetFloat(OpenVR.k_pch_SteamVR_Section, OpenVR.k_pch_SteamVR_SpeakersForwardYawOffsetDegrees_Float, ref error);
+                    var yawOffset = settings.GetFloat(OpenVR.k_pch_SteamVR_Section,
+                        OpenVR.k_pch_SteamVR_SpeakersForwardYawOffsetDegrees_Float, ref error);
                     offset = Quaternion.Euler(0.0f, yawOffset, 0.0f);
                 }
             }

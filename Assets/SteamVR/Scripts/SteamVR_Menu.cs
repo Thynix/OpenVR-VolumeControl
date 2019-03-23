@@ -22,7 +22,11 @@ namespace Valve.VR
         Vector4 uvOffset;
         float distance;
 
-        public RenderTexture texture { get { return overlay ? overlay.texture as RenderTexture : null; } }
+        public RenderTexture texture
+        {
+            get { return overlay ? overlay.texture as RenderTexture : null; }
+        }
+
         public float scale { get; private set; }
 
         string scaleLimitX, scaleLimitY, scaleRateText;
@@ -63,12 +67,13 @@ namespace Valve.VR
             if (Screen.width < texture.width)
             {
                 area.width = Screen.width;
-                overlay.uvOffset.x = -(float)(texture.width - Screen.width) / (2 * texture.width);
+                overlay.uvOffset.x = -(float) (texture.width - Screen.width) / (2 * texture.width);
             }
+
             if (Screen.height < texture.height)
             {
                 area.height = Screen.height;
-                overlay.uvOffset.y = (float)(texture.height - Screen.height) / (2 * texture.height);
+                overlay.uvOffset.y = (float) (texture.height - Screen.height) / (2 * texture.height);
             }
 
             GUILayout.BeginArea(area);
@@ -145,14 +150,14 @@ namespace Valve.VR
                 GUILayout.BeginHorizontal();
                 {
                     var t = SteamVR_Camera.sceneResolutionScale;
-                    int w = (int)(vr.sceneWidth * t);
-                    int h = (int)(vr.sceneHeight * t);
-                    int pct = (int)(100.0f * t);
+                    int w = (int) (vr.sceneWidth * t);
+                    int h = (int) (vr.sceneHeight * t);
+                    int pct = (int) (100.0f * t);
                     GUILayout.Label(string.Format("Scene quality: {0}x{1} ({2}%)", w, h, pct));
                     var result = Mathf.RoundToInt(GUILayout.HorizontalSlider(pct, 50, 200));
                     if (result != pct)
                     {
-                        SteamVR_Camera.sceneResolutionScale = (float)result / 100.0f;
+                        SteamVR_Camera.sceneResolutionScale = (float) result / 100.0f;
                     }
                 }
                 GUILayout.EndHorizontal();
