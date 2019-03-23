@@ -43,25 +43,17 @@ namespace Valve.VR.InteractionSystem
 
 
 		//-------------------------------------------------
-		private void OnHandHoverBegin( Hand hand )
+		protected void OnAttachedToHand( Hand hand )
 		{
 			this._hand = hand;
 		}
 
-
-		//-------------------------------------------------
-		private void OnHandHoverEnd( Hand hand )
-		{
-			this._hand = null;
-		}
-
-
-	    private void HandAttachedUpdate(Hand hand)
+	    protected void Update()
 	    {
 	        int currentToothIndex = Mathf.RoundToInt(linearMapping.value * teethCount - 0.5f);
 	        if (currentToothIndex != previousToothIndex)
 	        {
-	            Pulse(hand);
+	            Pulse(_hand);
 	            previousToothIndex = currentToothIndex;
 	        }
         }
@@ -76,22 +68,6 @@ namespace Valve.VR.InteractionSystem
 		    }
                 
 			{
-			    var active = hand.isActive;
-			    var grab = hand.GetBestGrabbingType();
-
-			    if (!active)
-			    {
-                    Debug.Log("Not pulsing due to inactivity");
-			        return;
-			    }
-                /*
-			    if (grab == GrabTypes.None)
-			    {
-			        Debug.Log("Not pulsing due to None GrabType");
-                    return;
-			    }
-                */
-
 			    ushort duration = (ushort)Random.Range( minimumPulseDuration, maximumPulseDuration + 1 );
 				hand.TriggerHapticPulse( duration );
 
