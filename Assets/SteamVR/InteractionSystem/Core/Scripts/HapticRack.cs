@@ -74,10 +74,5 @@ namespace Valve.VR.InteractionSystem
 
             onPulse.Invoke();
         }
-
-        //-------------------------------------------------
-        private void Pulse(Hand hand)
-        {
-        }
     }
 }
