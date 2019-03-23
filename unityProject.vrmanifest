@@ -5,10 +5,10 @@
       "app_key": "application.generated.unity.newtonvrtest.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "C:\\Users\\Steve\\Documents\\Unity Projects\\SteamVR Test\\actions.json",
+      "action_manifest_path": "C:\\Users\\Steve\\Documents\\Unity Projects\\SteamVR Volume Control\\actions.json",
       "strings": {
         "en_us": {
-          "name": "SteamVR Test [Testing]"
+          "name": "SteamVR Volume Control [Testing]"
         }
       }
     }
