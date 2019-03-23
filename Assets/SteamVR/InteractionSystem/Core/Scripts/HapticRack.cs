@@ -30,6 +30,11 @@ namespace Valve.VR.InteractionSystem
         public UnityEvent onPulse;
 
         private Hand _hand;
+
+        // Equality comparison with Hand is expensive; see
+        // https://github.com/JetBrains/resharper-unity/wiki/Avoid-null-comparisons-against-UnityEngine.Object-subclasses
+        private bool _haveHand;
+
         private int previousToothIndex = -1;
 
         //-------------------------------------------------
@@ -45,33 +50,34 @@ namespace Valve.VR.InteractionSystem
         //-------------------------------------------------
         protected void OnAttachedToHand(Hand hand)
         {
-            this._hand = hand;
+            _hand = hand;
+            _haveHand = true;
         }
 
         //-------------------------------------------------
         protected void Update()
         {
-            int currentToothIndex = Mathf.RoundToInt(linearMapping.value * teethCount - 0.5f);
-            if (currentToothIndex != previousToothIndex)
-            {
-                Pulse(_hand);
-                previousToothIndex = currentToothIndex;
-            }
-        }
+            var currentToothIndex = Mathf.RoundToInt(linearMapping.value * teethCount - 0.5f);
+            if (currentToothIndex == previousToothIndex)
+                return;
 
-        //-------------------------------------------------
-        private void Pulse(Hand hand)
-        {
-            if (hand == null)
+            previousToothIndex = currentToothIndex;
+
+            if (!_haveHand)
             {
                 Debug.Log("Not pulsing due to unset hand");
                 return;
             }
 
             ushort duration = (ushort) Random.Range(minimumPulseDuration, maximumPulseDuration + 1);
-            hand.TriggerHapticPulse(duration);
+            _hand.TriggerHapticPulse(duration);
 
             onPulse.Invoke();
+        }
+
+        //-------------------------------------------------
+        private void Pulse(Hand hand)
+        {
         }
     }
 }
