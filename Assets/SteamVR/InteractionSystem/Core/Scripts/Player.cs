@@ -40,7 +40,8 @@ namespace Valve.VR.InteractionSystem
         [Tooltip("This action lets you know when the player has placed the headset on their head")]
         public SteamVR_Action_Boolean headsetOnHead = SteamVR_Input.GetBooleanAction("HeadsetOnHead");
 
-		public bool allowToggleTo2D = true;
+        public bool allowToggleTo2D = true;
+        public bool logOnHeadsetEvents = true;
 
 
 		//-------------------------------------------------
@@ -284,7 +285,7 @@ namespace Valve.VR.InteractionSystem
             if (SteamVR.initializedState != SteamVR.InitializedStates.InitializeSuccess)
                 return;
 
-            if (headsetOnHead != null)
+            if (headsetOnHead != null && logOnHeadsetEvents)
             {
                 if (headsetOnHead.GetStateDown(SteamVR_Input_Sources.Head))
                 {
