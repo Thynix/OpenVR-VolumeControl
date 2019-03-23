@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 236112116}
   - component: {fileID: 236112115}
   m_Layer: 0
-  m_Name: LinearMapping
+  m_Name: VolumeMapping
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -399,10 +399,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 236112114}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46f8e9e70f68ee3418ad85992778c116, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d3d51d44f353c34bb6cb095a14a6870, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 0
+  minimumGetPeriod: 1
+  minimumSetPeriod: 1
 --- !u!4 &236112116
 Transform:
   m_ObjectHideFlags: 0
@@ -542,8 +543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 817521c5973e4ee45905ee97df3c38ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linearMapping: {fileID: 236112115}
-  teethCount: 100
+  volumeMapping: {fileID: 236112115}
   minimumPulseDuration: 500
   maximumPulseDuration: 900
   onPulse:
@@ -565,7 +565,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPosition: {fileID: 569280807}
   endPosition: {fileID: 193756866}
-  linearMapping: {fileID: 236112115}
+  volumeMapping: {fileID: 236112115}
   repositionGameObject: 1
   maintainMomemntum: 1
   momemtumDampenRate: 5
@@ -2421,7 +2421,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11465950, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
       propertyPath: allowToggleTo2D
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11465950, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
       propertyPath: logOnHeadsetEvents

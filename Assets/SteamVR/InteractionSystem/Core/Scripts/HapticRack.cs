@@ -18,7 +18,7 @@ namespace Valve.VR.InteractionSystem
         public VolumeMapping volumeMapping;
 
         [Tooltip("The number of haptic pulses evenly distributed along the mapping")]
-        public int teethCount = 128;
+        public const int teethCount = 100;
 
         [Tooltip("Minimum duration of the haptic pulse")]
         public int minimumPulseDuration = 500;
@@ -57,10 +57,11 @@ namespace Valve.VR.InteractionSystem
         //-------------------------------------------------
         protected void Update()
         {
-            var currentToothIndex = Mathf.RoundToInt(volumeMapping.Volume * teethCount - 0.5f);
+            var currentToothIndex = volumeMapping.FromScalar();
             if (currentToothIndex == previousToothIndex)
                 return;
 
+            Debug.LogFormat("tooth changed to {0:d}", currentToothIndex);
             previousToothIndex = currentToothIndex;
 
             if (!_haveHand)
