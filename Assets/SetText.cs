@@ -17,6 +17,8 @@ public class SetText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        output.text = $"{source.value:F3}";
+        // Values are from 0.0 to 1.0; this computation matches that of
+        // HapticRack with 100 teeth.
+        output.text = $"{Mathf.RoundToInt(source.value * 100 - 0.5f):d}";
     }
 }
