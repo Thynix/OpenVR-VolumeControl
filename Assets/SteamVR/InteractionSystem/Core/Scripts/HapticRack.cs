@@ -56,19 +56,6 @@ namespace Valve.VR.InteractionSystem
 		}
 
 
-		//-------------------------------------------------
-        /*
-		void Update()
-		{
-			int currentToothIndex = Mathf.RoundToInt( linearMapping.value * teethCount - 0.5f );
-			if ( currentToothIndex != previousToothIndex )
-			{
-				Pulse(_hand);
-				previousToothIndex = currentToothIndex;
-			}
-		}
-        */
-
 	    private void HandAttachedUpdate(Hand hand)
 	    {
 	        int currentToothIndex = Mathf.RoundToInt(linearMapping.value * teethCount - 0.5f);
