@@ -52,6 +52,9 @@ namespace Valve.VR.InteractionSystem
 
             initialMappingOffset = linearMapping.value;
 
+            // Update mapping on startup to reflect initial object position.
+            // TODO: Any reason for this to be behind repositionGameObject? It
+            //       doesn't reposition it without it.
 			if ( repositionGameObject )
 			{
 				UpdateLinearMapping( transform );
@@ -111,11 +114,8 @@ namespace Valve.VR.InteractionSystem
 			mappingChangeSamples[sampleCount % mappingChangeSamples.Length] = ( 1.0f / Time.deltaTime ) * ( linearMapping.value - prevMapping );
 			sampleCount++;
 
-			if ( repositionGameObject )
-			{
-				transform.position = Vector3.Lerp( startPosition.position, endPosition.position, linearMapping.value );
-			}
-		}
+            RepositionGameObject();
+        }
 
         protected float CalculateLinearMapping( Transform updateTransform )
 		{
@@ -137,11 +137,16 @@ namespace Valve.VR.InteractionSystem
 				mappingChangeRate = Mathf.Lerp( mappingChangeRate, 0.0f, momemtumDampenRate * Time.deltaTime );
 				linearMapping.value = Mathf.Clamp01( linearMapping.value + ( mappingChangeRate * Time.deltaTime ) );
 
-				if ( repositionGameObject )
-				{
-					transform.position = Vector3.Lerp( startPosition.position, endPosition.position, linearMapping.value );
-				}
+                RepositionGameObject();
 			}
 		}
+
+        private void RepositionGameObject()
+        {
+            if (repositionGameObject)
+            {
+                transform.position = Vector3.Lerp(startPosition.position, endPosition.position, linearMapping.value);
+            }
+        }
 	}
 }
