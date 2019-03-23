@@ -5,6 +5,12 @@
 [Bb]uilds/
 [Ll]ogs/
 
+# Do not commit paid asset or its shader plugin.
+[Aa]ssets/PSR HI-FI mini pack/
+[Aa]ssets/PSR HI-FI mini pack.meta
+[Aa]ssets/Allegorithmic/
+[Aa]ssets/Allegorithmic.meta
+
 # Never ignore Asset meta data
 ![Aa]ssets/**/*.meta
 
