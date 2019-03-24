@@ -4,8 +4,14 @@
     <e p="C:\Users\Steve\.Rider2018.3\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\Steve\.Rider2018.3\system\resharper-host\local\Transient\ReSharperHost\v183\SolutionCaches\_SteamVR Volume Control.625804319.00" t="ExcludeRecursive" />
     <e p="C:\Users\Steve\Documents\Unity Projects\SteamVR Volume Control" t="IncludeRecursive">
+      <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="Plugins" t="Include">
+          <e p="SystemVolumePlugin" t="Include">
+            <e p="SystemVolumePlugin.cs" t="Include" />
+          </e>
+        </e>
         <e p="SetText.cs" t="Include" />
         <e p="SteamVR" t="Include">
           <e p="Editor" t="Include">
@@ -203,7 +209,6 @@
             <e p="SteamVR_TrackedCamera.cs" t="Include" />
             <e p="SteamVR_TrackedObject.cs" t="Include" />
             <e p="SteamVR_Utils.cs" t="Include" />
-            <e p="VolumeMapping.cs" t="Include" />
           </e>
           <e p="SteamVR.asmdef" t="Include" />
           <e p="WindowsHelper" t="Include">
@@ -223,6 +228,7 @@
           <e p="SteamVR_Input_ActionSets.cs" t="Include" />
           <e p="SteamVR_Input_Initialization.cs" t="Include" />
         </e>
+        <e p="SystemVolumeLink.cs" t="Include" />
       </e>
       <e p="Library" t="ExcludeRecursive" />
       <e p="obj" t="ExcludeRecursive" />
@@ -233,9 +239,7 @@
       <e p="SteamVR_Editor.csproj" t="IncludeRecursive" />
       <e p="SteamVR_Input_Editor.csproj" t="IncludeRecursive" />
       <e p="SteamVR_Windows_EditorHelper.csproj" t="IncludeRecursive" />
-      <e p="Temp" t="ExcludeRecursive">
-        <e p="bin" t="ExcludeRecursive" />
-      </e>
+      <e p="Temp\bin" t="ExcludeRecursive" />
     </e>
   </component>
 </project>

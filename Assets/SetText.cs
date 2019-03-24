@@ -6,7 +6,7 @@ using Valve.VR.InteractionSystem;
 public class SetText : MonoBehaviour
 {
     private Text output;
-    public VolumeMapping source;
+    public LinearMapping source;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +17,9 @@ public class SetText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        output.text = source.FromScalar().ToString();
+        // TODO: Is this too expensive? Could refresh only on changes.
+        // TODO: What are boxing allocations, anyway?
+        var tooth = Mathf.RoundToInt(source.value * 100 - 0.5f);
+        output.text = $"{tooth:d} ({source.value:f3})";
     }
 }

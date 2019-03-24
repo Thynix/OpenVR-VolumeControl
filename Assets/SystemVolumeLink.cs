@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using UnityEditor.PackageManager;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 
-// Maps a volume setting via a plugin.
-public class VolumeMapping : MonoBehaviour
+// Links the system volume to a LinearMapping.
+public class SystemVolumeLink : MonoBehaviour
 {
-    // TODO: I couldn't get this to be public new float value when inheriting
-    //       LinearMapping and have its functions be called.
-    public float Volume
+    private float Volume
     {
         get
         {
@@ -46,7 +44,6 @@ public class VolumeMapping : MonoBehaviour
             if (FromScalar(lastKnownVolume) == FromScalar(desiredVolume))
                 return;
 
-            //Debug.LogFormat("hit set {0:f3}", FilterScalar(desiredVolume));
             var ret = SetVolume(FilterScalar(desiredVolume));
             if (ret != 0)
             {
@@ -57,6 +54,8 @@ public class VolumeMapping : MonoBehaviour
             lastKnownVolume = desiredVolume;
         }
     }
+
+    public LinearMapping linearMapping;
 
     [Tooltip("Minimum seconds between volume get calls")]
     public float minimumGetPeriod = 1;
@@ -71,9 +70,7 @@ public class VolumeMapping : MonoBehaviour
 
     private void Update()
     {
-        // Apply the last set attempt if it was declined but it's now been long
-        // enough.
-        Volume = desiredVolume;
+        Volume = linearMapping.value;
     }
 
     public int FromScalar()
@@ -108,6 +105,13 @@ public class VolumeMapping : MonoBehaviour
         {
             Debug.LogErrorFormat("Volume initialization failed with code {0}", ret);
         }
+
+        if (linearMapping == null)
+        {
+            linearMapping = GetComponent<LinearMapping>();
+        }
+
+        linearMapping.value = Volume;
     }
 
     [DllImport ("SystemVolumePlugin")]
