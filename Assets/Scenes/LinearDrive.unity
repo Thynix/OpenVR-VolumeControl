@@ -402,8 +402,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d3d51d44f353c34bb6cb095a14a6870, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimumGetPeriod: 1
-  minimumSetPeriod: 1
+  minimumGetPeriod: 0.05
+  minimumSetPeriod: 0.05
 --- !u!4 &236112116
 Transform:
   m_ObjectHideFlags: 0

@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Runtime.InteropServices;
+using UnityEditor.PackageManager;
+using UnityEngine;
 
 // Maps a volume setting via a plugin.
 public class VolumeMapping : MonoBehaviour
@@ -9,17 +12,32 @@ public class VolumeMapping : MonoBehaviour
     {
         get
         {
+            // If multiple threads could run this at once, to prevent rate
+            // limiting race conditions this check and setting previousGet must
+            // be atomic.
             if (Time.time < (previousGet + minimumGetPeriod))
                 return desiredVolume;
 
-            //Debug.Log("hit get");
             previousGet = Time.time;
-            // TODO: Get volume from plugin.
+
+            //Debug.Log("hit get");
+            var ret = GetVolume();
+            if (ret < 0)
+            {
+                Debug.LogError("get failed");
+                return lastKnownVolume;
+            }
+
+            lastKnownVolume = ret;
             return lastKnownVolume;
         }
         set
         {
             desiredVolume = value;
+
+            // If multiple threads could run this at once, to prevent rate
+            // limiting race conditions this check and setting previousSet must
+            // be atomic.
             if (Time.time < (previousSet + minimumSetPeriod))
                 return;
 
@@ -28,8 +46,14 @@ public class VolumeMapping : MonoBehaviour
             if (FromScalar(lastKnownVolume) == FromScalar(desiredVolume))
                 return;
 
-            Debug.LogFormat("hit set {0:f3}", FilterScalar(desiredVolume));
-            // TODO: Set volume with plugin.
+            //Debug.LogFormat("hit set {0:f3}", FilterScalar(desiredVolume));
+            var ret = SetVolume(FilterScalar(desiredVolume));
+            if (ret != 0)
+            {
+                Debug.LogError("set failed");
+                return;
+            }
+
             lastKnownVolume = desiredVolume;
         }
     }
@@ -71,5 +95,38 @@ public class VolumeMapping : MonoBehaviour
     private static float FilterScalar(float scalarVolume)
     {
         return FromScalar(scalarVolume) / 100f;
+    }
+
+    private void Awake()
+    {
+        LogDelegate logDelegate = Log;
+
+        SetLoggingCallback(Marshal.GetFunctionPointerForDelegate(logDelegate));
+
+        var ret = InitializeVolume();
+        if (ret != 0)
+        {
+            Debug.LogErrorFormat("Volume initialization failed with code {0}", ret);
+        }
+    }
+
+    [DllImport ("SystemVolumePlugin")]
+    private static extern float GetVolume();
+
+    [DllImport ("SystemVolumePlugin")]
+    private static extern int SetVolume(float volume);
+
+    [DllImport ("SystemVolumePlugin")]
+    private static extern int InitializeVolume();
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate void LogDelegate(string str);
+
+    [DllImport ("SystemVolumePlugin")]
+    private static extern void SetLoggingCallback(IntPtr func);
+
+    private static void Log(string str)
+    {
+        Debug.LogErrorFormat("SystemVolumePlugin: {0}", str);
     }
 }

@@ -61,7 +61,7 @@ namespace Valve.VR.InteractionSystem
             if (currentToothIndex == previousToothIndex)
                 return;
 
-            Debug.LogFormat("tooth changed to {0:d}", currentToothIndex);
+            //Debug.LogFormat("tooth changed to {0:d}", currentToothIndex);
             previousToothIndex = currentToothIndex;
 
             if (!_haveHand)
