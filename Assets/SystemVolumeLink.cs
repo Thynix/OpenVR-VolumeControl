@@ -1,7 +1,7 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using UnityEngine;
 using Valve.VR.InteractionSystem;
+using Plugins.SystemVolumePlugin;
 
 // Links the system volume to a LinearMapping.
 public class SystemVolumeLink : MonoBehaviour
@@ -19,7 +19,7 @@ public class SystemVolumeLink : MonoBehaviour
             previousGet = Time.time;
 
             //Debug.Log("hit get");
-            var ret = GetVolume();
+            var ret = SystemVolumePlugin.GetVolume();
             if (ret < 0)
             {
                 Debug.LogError("get failed");
@@ -44,7 +44,7 @@ public class SystemVolumeLink : MonoBehaviour
             if (FromScalar(lastKnownVolume) == FromScalar(desiredVolume))
                 return;
 
-            var ret = SetVolume(FilterScalar(desiredVolume));
+            var ret = SystemVolumePlugin.SetVolume(FilterScalar(desiredVolume));
             if (ret != 0)
             {
                 Debug.LogError("set failed");
@@ -96,11 +96,11 @@ public class SystemVolumeLink : MonoBehaviour
 
     private void Awake()
     {
-        LogDelegate logDelegate = Log;
+        SystemVolumePlugin.LogDelegate logDelegate = Log;
 
-        SetLoggingCallback(Marshal.GetFunctionPointerForDelegate(logDelegate));
+        SystemVolumePlugin.SetLoggingCallback(Marshal.GetFunctionPointerForDelegate(logDelegate));
 
-        var ret = InitializeVolume();
+        var ret = SystemVolumePlugin.InitializeVolume();
         if (ret != 0)
         {
             Debug.LogErrorFormat("Volume initialization failed with code {0}", ret);
@@ -121,21 +121,6 @@ public class SystemVolumeLink : MonoBehaviour
         desiredVolume = initialVolume;
         Debug.LogFormat("Starting volume is {0:f3}", initialVolume);
     }
-
-    [DllImport ("SystemVolumePlugin")]
-    private static extern float GetVolume();
-
-    [DllImport ("SystemVolumePlugin")]
-    private static extern int SetVolume(float volume);
-
-    [DllImport ("SystemVolumePlugin")]
-    private static extern int InitializeVolume();
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void LogDelegate(string str);
-
-    [DllImport ("SystemVolumePlugin")]
-    private static extern void SetLoggingCallback(IntPtr func);
 
     private static void Log(string str)
     {
