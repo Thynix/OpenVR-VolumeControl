@@ -111,7 +111,15 @@ public class SystemVolumeLink : MonoBehaviour
             linearMapping = GetComponent<LinearMapping>();
         }
 
-        linearMapping.value = Volume;
+        // Allow get and set immediately after startup by behaving as though
+        // previous instances occured before startup instead of the default 0.
+        previousGet = -2 * minimumGetPeriod;
+        previousSet = -2 * minimumSetPeriod;
+
+        var initialVolume = Volume;
+        linearMapping.value = initialVolume;
+        desiredVolume = initialVolume;
+        Debug.LogFormat("Starting volume is {0:f3}", initialVolume);
     }
 
     [DllImport ("SystemVolumePlugin")]
