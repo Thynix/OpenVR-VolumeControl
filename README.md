@@ -4,6 +4,8 @@ As of this writing, changing the volume from within VR involves pointing at a 2D
 
 The audio gear on the table is from a paid asset package, and will not be included in this repository. The utility will still work if you don't have it - the gear is entirely cosmetic.
 
+[Here's a video.](https://www.youtube.com/watch?v=vdGikLASFjM)
+
 ## Screenshots
 
 ![Action Shot](Screenshots/example.jpg)
