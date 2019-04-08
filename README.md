@@ -1,6 +1,6 @@
 # OpenVR Volume Control
 
-As of this writing, changing the volume from within VR involves pointing at a 2D volume control. I found that frustrating and difficult to do precisely, as I often wanted the volume at or near the lowest level, so this allows adjusting the volume by dragging a giant virtual slider with haptic feedback.
+As of this writing, changing the volume from within VR involves pointing at a 2D volume control. I found that frustrating and difficult to do precisely, as I often wanted the volume at or near the lowest level, so this allows adjusting the volume by dragging a giant virtual slider with haptic feedback. It consists of a plugin to interface with Windows' CoreAudio, and a HapticRack and the LinearDrive example interaction from the SteamVR Unity plugin.
 
 The audio gear on the table is from a paid asset package, and will not be included in this repository. The utility will still work if you don't have it - the gear is entirely cosmetic.
 
