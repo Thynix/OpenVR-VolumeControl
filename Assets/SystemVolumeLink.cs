@@ -78,9 +78,9 @@ public class SystemVolumeLink : MonoBehaviour
         return FromScalar(Volume);
     }
 
-    // Map a volume from [0.0, 1.0] to [0, 100]. This is done once for
-    // consistency between rendered volume and haptics.
-    public static int FromScalar(float scalarVolume)
+    // Map a volume from [0.0, 1.0] to [0, 100]. This allows consistency between
+    // changes in the rendered volume and haptics.
+    private static int FromScalar(float scalarVolume)
     {
         return Mathf.RoundToInt(scalarVolume * 100 - 0.5f);
     }
