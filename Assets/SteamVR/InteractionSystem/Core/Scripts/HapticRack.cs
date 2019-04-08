@@ -61,14 +61,10 @@ namespace Valve.VR.InteractionSystem
             if (currentToothIndex == previousToothIndex)
                 return;
 
-            //Debug.LogFormat("tooth changed to {0:d}", currentToothIndex);
             previousToothIndex = currentToothIndex;
 
             if (!_haveHand)
-            {
-                Debug.Log("Not pulsing due to unset hand");
                 return;
-            }
 
             ushort duration = (ushort) Random.Range(minimumPulseDuration, maximumPulseDuration + 1);
             _hand.TriggerHapticPulse(duration);
