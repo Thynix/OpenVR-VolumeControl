@@ -75,7 +75,11 @@ public class SystemVolumeLink : MonoBehaviour
 
     public int FromScalar()
     {
-        return FromScalar(Volume);
+        // Using Volume here can cause flickering for some values at the system
+        // volume get update framerate. Always using desiredVolume avoids that
+        // flickering.
+        // TODO: Is this avoidable?
+        return FromScalar(desiredVolume);
     }
 
     // Map a volume from [0.0, 1.0] to [0, 100]. This allows consistency between
