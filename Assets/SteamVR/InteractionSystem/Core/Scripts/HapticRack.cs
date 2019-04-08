@@ -29,11 +29,11 @@ namespace Valve.VR.InteractionSystem
         [Tooltip("This event is triggered every time a haptic pulse is made")]
         public UnityEvent onPulse;
 
-        private Hand _hand;
+        private Hand hand;
 
         // Equality comparison with Hand is expensive; see
         // https://github.com/JetBrains/resharper-unity/wiki/Avoid-null-comparisons-against-UnityEngine.Object-subclasses
-        private bool _haveHand;
+        private bool haveHand;
 
         private int previousToothIndex = -1;
 
@@ -50,8 +50,8 @@ namespace Valve.VR.InteractionSystem
         //-------------------------------------------------
         protected void OnAttachedToHand(Hand hand)
         {
-            _hand = hand;
-            _haveHand = true;
+            this.hand = hand;
+            haveHand = true;
         }
 
         //-------------------------------------------------
@@ -63,11 +63,11 @@ namespace Valve.VR.InteractionSystem
 
             previousToothIndex = currentToothIndex;
 
-            if (!_haveHand)
+            if (!haveHand)
                 return;
 
             ushort duration = (ushort) Random.Range(minimumPulseDuration, maximumPulseDuration + 1);
-            _hand.TriggerHapticPulse(duration);
+            hand.TriggerHapticPulse(duration);
 
             onPulse.Invoke();
         }
