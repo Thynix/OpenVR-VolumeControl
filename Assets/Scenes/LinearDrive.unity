@@ -448,8 +448,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linearMapping: {fileID: 0}
-  minimumGetPeriod: 0.05
-  minimumSetPeriod: 0.05
+  getPerSecond: 20
+  setPerSecond: 20
 --- !u!1001 &374089916
 PrefabInstance:
   m_ObjectHideFlags: 0

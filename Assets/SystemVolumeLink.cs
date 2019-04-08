@@ -2,6 +2,7 @@
 using UnityEngine;
 using Valve.VR.InteractionSystem;
 using Plugins.SystemVolumePlugin;
+using UnityEngine.Assertions;
 
 // Links the system volume to a LinearMapping.
 public class SystemVolumeLink : MonoBehaviour
@@ -57,11 +58,13 @@ public class SystemVolumeLink : MonoBehaviour
 
     public LinearMapping linearMapping;
 
-    [Tooltip("Minimum seconds between volume get calls")]
-    public float minimumGetPeriod = 1;
+    [Tooltip("Maximum system volume get calls per second")]
+    public float getPerSecond = 20;
+    private float minimumGetPeriod;
 
-    [Tooltip("Minimum seconds between volume set calls")]
-    public float minimumSetPeriod = 1;
+    [Tooltip("Maximum system volume set calls per second")]
+    public float setPerSecond = 20;
+    private float minimumSetPeriod;
 
     private float lastKnownVolume;
     private float desiredVolume;
@@ -104,6 +107,14 @@ public class SystemVolumeLink : MonoBehaviour
 
     private void Awake()
     {
+        Assert.IsTrue(getPerSecond > 0, "getPerSecond must be positive");
+        Assert.IsTrue(setPerSecond > 0, "setPerSecond must be positive");
+
+        // Seconds between calls is more useful during runtime, but calls per
+        // second is easier to set.
+        minimumGetPeriod = 1 / getPerSecond;
+        minimumSetPeriod = 1 / setPerSecond;
+
         SystemVolumePlugin.LogDelegate logDelegate = Log;
 
         SystemVolumePlugin.SetLoggingCallback(Marshal.GetFunctionPointerForDelegate(logDelegate));
