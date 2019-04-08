@@ -11,12 +11,12 @@ public class SystemVolumeLink : MonoBehaviour
         get
         {
             // If multiple threads could run this at once, to prevent rate
-            // limiting race conditions this check and setting previousGet must
+            // limiting race conditions this check and setting allowGetTime must
             // be atomic.
-            if (Time.time < (previousGet + minimumGetPeriod))
+            if (Time.time < allowGetTime)
                 return desiredVolume;
 
-            previousGet = Time.time;
+            allowGetTime = Time.time + minimumGetPeriod;
 
             //Debug.Log("hit get");
             var ret = SystemVolumePlugin.GetVolume();
@@ -34,12 +34,12 @@ public class SystemVolumeLink : MonoBehaviour
             desiredVolume = value;
 
             // If multiple threads could run this at once, to prevent rate
-            // limiting race conditions this check and setting previousSet must
+            // limiting race conditions this check and setting allowSetTime must
             // be atomic.
-            if (Time.time < (previousSet + minimumSetPeriod))
+            if (Time.time < allowSetTime)
                 return;
 
-            previousSet = Time.time;
+            allowSetTime = Time.time + minimumSetPeriod;
 
             if (FromScalar(lastKnownVolume) == FromScalar(desiredVolume))
                 return;
@@ -65,8 +65,12 @@ public class SystemVolumeLink : MonoBehaviour
 
     private float lastKnownVolume;
     private float desiredVolume;
-    private float previousGet;
-    private float previousSet;
+
+    // Time at or after which a call to get the system volume is allowed. Used for rate limiting.
+    private float allowGetTime;
+
+    // Time at or after which a call to set the system volume is allowed. Used for rate limiting.
+    private float allowSetTime;
 
     private void Update()
     {
@@ -114,11 +118,6 @@ public class SystemVolumeLink : MonoBehaviour
         {
             linearMapping = GetComponent<LinearMapping>();
         }
-
-        // Allow get and set immediately after startup by behaving as though
-        // previous instances occured before startup instead of the default 0.
-        previousGet = -2 * minimumGetPeriod;
-        previousSet = -2 * minimumSetPeriod;
 
         var initialVolume = Volume;
         linearMapping.value = initialVolume;
