@@ -1,5 +1,5 @@
 {
-   "app_key" : "application.generated.unity.steamvr.exe",
+   "app_key" : "thynix.openvr.utility.volumecontrol",
    "bindings" : {
       "/actions/buggy" : {
          "sources" : [
