@@ -10,6 +10,10 @@ The audio gear on the table is from a paid asset package, and will not be includ
 
 ![Action Shot](Screenshots/example.jpg)
 
+## License
+
+The Unity plugin I wrote to interface with system volume control is MIT licensed. Code from other sources, such as the [SteamVR Unity plugin](https://github.com/ValveSoftware/steamvr_unity_plugin/blob/master/LICENSE), and [Steam Audio Unity plugin](https://github.com/ValveSoftware/steam-audio/blob/master/LICENSE.md), are subject to their respective licenses.
+
 ## Credits
 
 * [Hi-Fi mini components - PSR](https://assetstore.unity.com/packages/3d/props/electronics/hi-fi-mini-component-pack-110452)
